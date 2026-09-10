@@ -1629,9 +1629,10 @@ function enviarLista(btnEl){
       const parts = p.nascimento.split('-');
       const nascFormatado = parts[2] + '/' + parts[1] + '/' + parts[0];
       const idade = new Date().getFullYear() - parseInt(parts[0]);
-      // Find photo by matching first name
-      const primeiroNome = p.nome.split(' ')[0];
-      const fotoKey = Object.keys(FOTOS_EQUIPE).find(k => k.startsWith(primeiroNome));
+      // Find photo by matching normalized first name
+      const normalizar = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+      const primeiroNome = normalizar(p.nome.split(' ')[0]);
+      const fotoKey = Object.keys(FOTOS_EQUIPE).find(k => normalizar(k.split(' ')[0]) === primeiroNome);
       const foto = fotoKey ? FOTOS_EQUIPE[fotoKey] : null;
       const avatar = foto 
         ? `<img src="${foto}" alt="${p.nome}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--roxo-borda);flex-shrink:0">`
