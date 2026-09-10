@@ -599,6 +599,7 @@ function fazerLogin() {
     ['data-termo','data-anamnese','data-triagem','data-es','data-lista','data-acolhimento'].forEach(id => {
       const el = document.getElementById(id); if(el) el.value = hoje;
     });
+    verificarAniversariosHoje();
   } else {
     document.getElementById('login-erro').style.display = 'block';
     document.getElementById('login-senha').value = '';
@@ -1518,6 +1519,33 @@ function enviarLista(btnEl){
       }
     }
   };
+
+
+  function verificarAniversariosHoje() {
+    const hoje2 = new Date();
+    const diaHoje = hoje2.getDate();
+    const mesHoje = hoje2.getMonth() + 1;
+
+    const aniversariantes = EQUIPE_BASE.filter(p => {
+      if (!p.nascimento) return false;
+      const parts = p.nascimento.split('-');
+      return parseInt(parts[2]) === diaHoje && parseInt(parts[1]) === mesHoje;
+    });
+
+    if (aniversariantes.length > 0) {
+      const nomes = aniversariantes.map(p => {
+        const idade = hoje2.getFullYear() - parseInt(p.nascimento.split('-')[0]);
+        return p.nome + ' (' + idade + ' anos)';
+      }).join(', ');
+
+      const banner = document.getElementById('banner-aniversario');
+      const texto = document.getElementById('banner-aniv-texto');
+      if (banner && texto) {
+        texto.innerHTML = '🎂 Hoje é aniversário de: <strong>' + nomes + '</strong> — Não esqueça de parabenizar! 💜';
+        banner.style.display = 'block';
+      }
+    }
+  }
 
 </script>
 
