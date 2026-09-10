@@ -769,11 +769,13 @@ function enviarLista(btnEl){
   // ── DADOS DAS PARTICIPANTES (para aniversários e controle) ──
   // Aniversários da equipe — não contam nas estatísticas de pacientes
   const EQUIPE_BASE = [
-    { nome: "Érica Paula Dorneles", nascimento: "1974-03-10" },
-    { nome: "Paula Gonçalves Silva Honório", nascimento: "1993-04-28" },
-    { nome: "Kellen Domingues Braga Pimenta", nascimento: "1972-10-03" },
-    { nome: "Débora Hellen Rodrigues Silva", nascimento: "2002-07-22" },
-    { nome: "Letícia Fernanda Silva Moraes", nascimento: "1986-09-05" },
+    { nome: "Érica Paula Dorneles", nascimento: "1974-03-10", telefone: "(55) 34998-7837", email: "ericapaulaayala@gmail.com", funcao: "Assistente Social" },
+    { nome: "Paula Gonçalves Silva Honório", nascimento: "1993-04-28", telefone: "(34) 99650-0553", email: "pastora.paulahonorio@gmail.com", funcao: "Pastoral, Ana, Mentes Transformadas, Lucas" },
+    { nome: "Kellen Domingues Braga Pimenta", nascimento: "1972-10-03", telefone: "(55) 34999-9630", email: "kdbpimenta@gmail.com", funcao: "Líder do Mentes Transformadas" },
+    { nome: "Débora Hellen Rodrigues Silva", nascimento: "2002-07-22", telefone: "(34) 99167-9253", email: "deborahellen066@gmail.com", funcao: "Mentes Transformadas / Lucas" },
+    { nome: "Letícia Fernanda Silva Moraes", nascimento: "1986-05-09", telefone: "(34) 98406-4044", email: "leticiamoraes221@hotmail.com", funcao: "Mentes Transformadas / Lucas / Encontro com Deus" },
+    { nome: "Sandra Rodovalho", nascimento: "1969-05-02", telefone: "(34) 98721-6871", email: "sandrarodovalhopsico@gmail.com", funcao: "Royal Sisters líder de ensino, Mentes Transformadas, Libertação" },
+    { nome: "Camila Alves Araújo de Freitas", nascimento: "1998-03-31", telefone: "(34) 99889-7141", email: "camilaal98@gmail.com", funcao: "Secretária" },
   ];
 
   let agendaItems = JSON.parse(localStorage.getItem('mt_agenda') || '[]');
@@ -823,9 +825,10 @@ function enviarLista(btnEl){
         const idade = new Date().getFullYear() - parseInt(parts[0]);
         return `<div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--roxo-claro);border-radius:8px;border:1px solid var(--roxo-borda)">
           <span style="font-size:24px">🎂</span>
-          <div>
+          <div style="flex:1">
             <div style="font-weight:600;color:var(--roxo)">${p.nome}</div>
-            <div style="font-size:12px;color:var(--texto-sec)">Dia ${dia} — ${idade} anos</div>
+            <div style="font-size:12px;color:var(--texto-sec)">Dia ${dia} — ${idade} anos ${p.funcao ? '— ' + p.funcao : ''}</div>
+            ${p.telefone ? `<div style="font-size:12px;color:var(--texto-sec);margin-top:2px">📱 ${p.telefone} ${p.email ? '| ✉️ ' + p.email : ''}</div>` : ''}
           </div>
         </div>`;
       }).join('');
@@ -898,9 +901,10 @@ function enviarLista(btnEl){
         const idade = new Date().getFullYear() - nascAno;
         return `<div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--roxo-claro);border-radius:8px;border:1px solid var(--roxo-borda)">
           <span style="font-size:24px">🎂</span>
-          <div>
+          <div style="flex:1">
             <div style="font-weight:600;color:var(--roxo)">${p.nome}</div>
-            <div style="font-size:12px;color:var(--texto-sec)">Dia ${dia} — ${idade} anos</div>
+            <div style="font-size:12px;color:var(--texto-sec)">Dia ${dia} — ${idade} anos ${p.funcao ? '— ' + p.funcao : ''}</div>
+            ${p.telefone ? `<div style="font-size:12px;color:var(--texto-sec);margin-top:2px">📱 ${p.telefone} ${p.email ? '| ✉️ ' + p.email : ''}</div>` : ''}
           </div>
         </div>`;
       }).join('');
