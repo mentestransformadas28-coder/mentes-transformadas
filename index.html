@@ -1465,6 +1465,47 @@ function enviarLista(btnEl){
     document.getElementById('senha-relatorio').value = '';
 
     window.prontuarioPacAtual = nome;
+
+    // Renderizar documentos disponíveis
+    const docsEl = document.getElementById('docs-paciente');
+    if (docsEl) {
+      const tiposDoc = [
+        { label: '📋 Acolhimento', pasta: '01 — Entrada', cor: '#2D5A8C' },
+        { label: '📊 Triagem Social', pasta: '02 — Avaliação Inicial', cor: '#314333' },
+        { label: '🏥 Anamnese', pasta: '02 — Avaliação Inicial', cor: '#314333' },
+        { label: '📄 Termo de Compromisso', pasta: '01 — Entrada', cor: '#2D5A8C' },
+        { label: '📝 Evolução Clínica', pasta: '03 — Acompanhamento', cor: '#253426' },
+        { label: '👥 Prontuário do Grupo', pasta: '03 — Acompanhamento', cor: '#253426' },
+      ];
+
+      // Relatório sigiloso — só para Letícia, Kellen e psicóloga responsável
+      const psiSigilosas = ['leticia', 'kellen'];
+      const temAcessoSigiloso = usuarioLogado && (
+        psiSigilosas.includes(usuarioLogado.usuario) || usuarioLogado.admin
+      );
+
+      if (temAcessoSigiloso) {
+        tiposDoc.push({ label: '🔒 Relatório Clínico (Sigiloso)', pasta: '04 — Relatório Clínico', cor: '#8B0000' });
+      }
+
+      docsEl.innerHTML = tiposDoc.map(d =>
+        `<div style="padding:12px;background:white;border:1px solid var(--borda);border-radius:8px;display:flex;align-items:center;gap:10px">
+          <div style="flex:1;font-size:13px;font-weight:500;color:var(--texto)">${d.label}</div>
+          <div style="font-size:11px;color:var(--texto-sec)">${d.pasta}</div>
+        </div>`
+      ).join('');
+    }
+
+    // Mostrar status badge
+    const statusBadge = document.getElementById('prontuario-status-badge');
+    if (statusBadge) {
+      const pg = pacientesGrupo.find(p => p.nome === nome);
+      const pi = pacientesIndividual.find(p => p.nome === nome);
+      const status = pg?.status || pi?.status || 'Cadastrada';
+      const cores = { 'Ativa': '#2E7D5E', 'Em atendimento': '#2E7D5E', 'Aguardando': '#C5A263', 'Em espera': '#C5A263', 'Concluída': '#2D5A8C', 'Concluído': '#2D5A8C', 'Desistiu': '#c0392b' };
+      statusBadge.textContent = status;
+      statusBadge.style.background = cores[status] || 'rgba(255,255,255,0.2)';
+    }
   }
 
   function acessarRelatorio() {
@@ -1983,9 +2024,16 @@ function enviarLista(btnEl){
 
     <div id="prontuario-resultado" style="display:none">
       <div class="section">
-        <div class="section-header" id="prontuario-nome-header">Prontuário</div>
+        <div class="section-header" id="prontuario-nome-header" style="display:flex;justify-content:space-between;align-items:center"><span>📂 Prontuário</span><span id="prontuario-status-badge" style="font-size:11px;padding:3px 10px;border-radius:12px;background:rgba(255,255,255,0.2)"></span></div>
         <div class="section-body">
           <div id="linha-do-tempo"></div>
+
+        <!-- Documentos da Paciente -->
+        <div style="margin-top:24px">
+          <div style="font-size:11px;font-weight:600;color:var(--roxo);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px">Documentos</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px" id="docs-paciente">
+          </div>
+        </div>
         </div>
       </div>
 
