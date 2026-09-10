@@ -106,26 +106,29 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
   </div>
 </div>
 <div class="nav-tabs">
-  <button class="tab-btn active" onclick="showTab('fluxo-acolhimento',this)">Fluxo Acolhimento</button>
-  <button class="tab-btn" onclick="showTab('fluxo-grupo',this)">Fluxo Grupo</button>
-  <button class="tab-btn" onclick="showTab('termo',this)">Termo de Compromisso</button>
+  <span style="padding:0 8px;display:flex;align-items:center;font-size:10px;font-weight:700;color:var(--roxo);letter-spacing:0.08em;border-right:1px solid var(--borda);white-space:nowrap">INÍCIO</span>
+  <button class="tab-btn active" onclick="showTab('dashboard',this)">📊 Dashboard</button>
+  <span style="padding:0 8px;display:flex;align-items:center;font-size:10px;font-weight:700;color:var(--roxo);letter-spacing:0.08em;border-right:1px solid var(--borda);border-left:1px solid var(--borda);white-space:nowrap">ATENDIMENTO</span>
+  <button class="tab-btn" onclick="showTab('fluxo-acolhimento',this)">Fluxos</button>
+  <button class="tab-btn" onclick="showTab('acolhimento',this)">Acolhimento</button>
   <button class="tab-btn" onclick="showTab('triagem',this)">Triagem Social</button>
   <button class="tab-btn" onclick="showTab('anamnese',this)">Anamnese</button>
-  <button class="tab-btn" onclick="showTab('lista-presenca',this)">Prontuario do Grupo</button>
-  <button class="tab-btn" onclick="showTab('cadastro',this)">Cadastro</button>
-  <button class="tab-btn" onclick="showTab('pac-grupo',this)">👥 Pacientes Grupo</button>
-  <button class="tab-btn" onclick="showTab('pac-individual',this)">🧑 Pacientes Individual</button>
-  <button class="tab-btn" onclick="showTab('prontuario-pac',this)">📂 Prontuário Paciente</button>
-  <button class="tab-btn" onclick="showTab('acolhimento',this)">Acolhimento</button>
-  <button class="tab-btn" onclick="showTab('dashboard',this)">📊 Dashboard</button>
-  <button class="tab-btn" onclick="showTab('agenda',this)">📅 Agenda</button>
+  <button class="tab-btn" onclick="showTab('lista-presenca',this)">Prontuário Grupo</button>
+  <button class="tab-btn" onclick="showTab('termo',this)">Termo</button>
+  <span style="padding:0 8px;display:flex;align-items:center;font-size:10px;font-weight:700;color:var(--roxo);letter-spacing:0.08em;border-right:1px solid var(--borda);border-left:1px solid var(--borda);white-space:nowrap">GESTÃO</span>
+  <button class="tab-btn" onclick="showTab('pac-grupo',this)">Pacientes</button>
+  <button class="tab-btn" onclick="showTab('prontuario-pac',this)">📂 Prontuário</button>
   <button class="tab-btn" onclick="abrirHistorico(this)">🔒 Histórico</button>
+  <button class="tab-btn" onclick="showTab('agenda',this)">📅 Agenda</button>
+  <span style="padding:0 8px;display:flex;align-items:center;font-size:10px;font-weight:700;color:var(--roxo);letter-spacing:0.08em;border-left:1px solid var(--borda);white-space:nowrap">ADM</span>
+  <button class="tab-btn" onclick="showTab('equipe',this)">Equipe</button>
+  <button class="tab-btn" onclick="showTab('cadastro',this)">Cadastro</button>
 </div>
 <div class="aviso-bar">Proibida a divulgacao deste documento externamente sem autorizacao</div>
 
 
 <!-- FLUXO ACOLHIMENTO -->
-<div class="page active" id="fluxo-acolhimento">
+<div class="page" id="fluxo-acolhimento">
   <div class="content-wrap">
     <div class="fluxo-title">Fluxograma – Acolhimento</div>
     <div class="fluxo-steps">
@@ -1588,6 +1591,96 @@ function enviarLista(btnEl){
     }
   }
 
+
+  // ── EQUIPE ──
+  function renderizarEquipe() {
+    const cards = document.getElementById('equipe-cards');
+    if (!cards) return;
+    cards.innerHTML = EQUIPE_BASE.map(p => {
+      const parts = p.nascimento.split('-');
+      const nascFormatado = parts[2] + '/' + parts[1] + '/' + parts[0];
+      const idade = new Date().getFullYear() - parseInt(parts[0]);
+      return `<div style="background:white;border-radius:12px;border:1px solid var(--borda);padding:20px;box-shadow:0 1px 4px rgba(37,52,38,0.06)">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+          <div style="width:44px;height:44px;border-radius:50%;background:var(--roxo);color:white;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;flex-shrink:0">${p.nome[0]}</div>
+          <div>
+            <div style="font-weight:600;color:var(--roxo);font-size:14px">${p.nome}</div>
+            <div style="font-size:12px;color:var(--texto-sec)">${p.funcao || ''}</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;font-size:13px">
+          <div><span style="color:var(--texto-sec)">📱</span> ${p.telefone || '—'}</div>
+          <div><span style="color:var(--texto-sec)">✉️</span> ${p.email || '—'}</div>
+          <div><span style="color:var(--texto-sec)">🎂</span> ${nascFormatado} (${idade} anos)</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── PAINEL DE PENDÊNCIAS ──
+  function verificarPendencias() {
+    const painel = document.getElementById('painel-pendencias');
+    if (!painel) return;
+
+    const pendencias = [];
+
+    // Pacientes sem acolhimento
+    pacientesCadastradas.forEach(p => {
+      const temAcolhimento = pacientesGrupo.find(pg => pg.nome === p.nome) ||
+                             pacientesIndividual?.find(pi => pi.nome === p.nome);
+      if (!temAcolhimento) {
+        pendencias.push({ tipo: 'warning', texto: p.nome + ' — cadastrada mas sem encaminhamento definido' });
+      }
+    });
+
+    // Pacientes em espera
+    pacientesGrupo.filter(p => p.status === 'Em espera').forEach(p => {
+      pendencias.push({ tipo: 'alert', texto: p.nome + ' — aguardando vaga no grupo' });
+    });
+
+    // Próxima sessão
+    const hoje2 = new Date().toISOString().split('T')[0];
+    const proxima = agendaItems.find(a => a.data >= hoje2);
+    if (!proxima) {
+      pendencias.push({ tipo: 'info', texto: 'Nenhuma sessão agendada — verifique a Agenda' });
+    }
+
+    if (pendencias.length === 0) {
+      painel.innerHTML = '<div style="color:#2E7D5E;font-size:13px;padding:8px">✅ Nenhuma pendência no momento.</div>';
+      return;
+    }
+
+    const cores = { warning: '#C5A263', alert: '#c0392b', info: '#2D5A8C' };
+    const icones = { warning: '⚠️', alert: '🔴', info: 'ℹ️' };
+    painel.innerHTML = pendencias.map(p =>
+      `<div style="display:flex;align-items:center;gap:10px;padding:10px;margin-bottom:8px;border-radius:8px;background:${cores[p.tipo]}18;border-left:3px solid ${cores[p.tipo]}">
+        <span>${icones[p.tipo]}</span>
+        <span style="font-size:13px;color:var(--texto)">${p.texto}</span>
+      </div>`
+    ).join('');
+  }
+
+  // Update showTab to render equipe and pendencias
+  const _showTabOrigBase = showTab;
+  showTab = function(id, btn) {
+    _showTabOrigBase(id, btn);
+    if (id === 'equipe') renderizarEquipe();
+    if (id === 'dashboard') {
+      inicializarDashboard();
+      verificarPendencias();
+    }
+  };
+
+  // Also render on login
+  const _iniciarAppOrig = iniciarApp;
+  function iniciarApp() {
+    _iniciarAppOrig && _iniciarAppOrig();
+    setTimeout(() => {
+      verificarPendencias();
+      carregarPacientes();
+    }, 500);
+  }
+
 </script>
 
 <div class="page" id="cadastro">
@@ -1637,7 +1730,7 @@ function enviarLista(btnEl){
 
 
 <!-- DASHBOARD -->
-<div class="page" id="dashboard">
+<div class="page active" id="dashboard">
   <div class="content-wrap">
     <div style="font-family:Playfair Display,serif;font-size:20px;color:var(--roxo);text-align:center;margin-bottom:28px;padding-bottom:12px;border-bottom:2px solid var(--roxo-claro)">
       Dashboard — Mentes Transformadas
@@ -1657,6 +1750,14 @@ function enviarLista(btnEl){
         <div id="aniversariantes-pacientes" style="display:flex;flex-direction:column;gap:8px">
           <p style="color:var(--texto-sec);font-size:13px" id="msg-aniv-pac">Carregando...</p>
         </div>
+      </div>
+    </div>
+
+    <!-- Pendências -->
+    <div class="section">
+      <div class="section-header">⚠️ Pendências</div>
+      <div class="section-body" id="painel-pendencias">
+        <p style="color:var(--texto-sec);font-size:13px">Verificando pendências...</p>
       </div>
     </div>
 
@@ -1956,54 +2057,6 @@ function enviarLista(btnEl){
   </div>
 </div>
 
-<!-- PACIENTES — INDIVIDUAL -->
-<div class="page" id="pac-individual">
-  <div class="content-wrap">
-    <div style="font-family:Georgia,serif;font-size:20px;color:var(--roxo);text-align:center;margin-bottom:28px;padding-bottom:12px;border-bottom:2px solid var(--roxo-claro)">
-      Pacientes — Atendimento Individual
-    </div>
-
-    <div class="section">
-      <div class="section-header">➕ Encaminhar Paciente para Atendimento Individual</div>
-      <div class="section-body">
-        <div class="row c2">
-          <div class="field"><label>Nome da Paciente</label><input type="text" id="pi-nome" placeholder="Nome completo"></div>
-          <div class="field"><label>Data do Encaminhamento</label><input type="date" id="pi-data"></div>
-        </div>
-        <div class="row c2">
-          <div class="field"><label>Psicóloga Responsável</label><select id="pi-psi">
-            <option value="">Selecionar...</option>
-            <option>Letícia Fernanda — CRP 04/82168</option>
-            <option>Débora Hellen — CRP 04/82984</option>
-            <option>Sandra Rodovalho — CRP 04/48003</option>
-            <option>Paula Gonçalves — CRP 04/55110</option>
-            <option>Kellen Domingues — CRP 20304/4ª</option>
-          </select></div>
-          <div class="field"><label>Status</label><select id="pi-status"><option>Aguardando</option><option>Em atendimento</option><option>Concluído</option><option>Desistiu</option></select></div>
-        </div>
-        <div class="field" style="margin-top:12px"><label>Motivo do encaminhamento individual</label><textarea rows="2" id="pi-motivo"></textarea></div>
-        <div class="acoes">
-          <button class="btn btn-prim" onclick="adicionarPacienteIndividual()">+ Encaminhar</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Distribuição por psicóloga -->
-    <div class="section">
-      <div class="section-header">📊 Distribuição por Psicóloga</div>
-      <div class="section-body" id="distribuicao-psi">
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header">📋 Fila de Atendimento Individual</div>
-      <div class="section-body" id="lista-pac-individual">
-        <p style="color:var(--texto-sec);font-size:13px">Nenhuma paciente na fila ainda.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- PRONTUÁRIO DA PACIENTE -->
 <div class="page" id="prontuario-pac">
   <div class="content-wrap">
@@ -2075,6 +2128,19 @@ function enviarLista(btnEl){
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- EQUIPE -->
+<div class="page" id="equipe">
+  <div class="content-wrap">
+    <div style="font-family:Georgia,serif;font-size:20px;color:var(--roxo);text-align:center;margin-bottom:28px;padding-bottom:12px;border-bottom:2px solid var(--roxo-claro)">
+      Equipe — Mentes Transformadas
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px" id="equipe-cards">
     </div>
   </div>
 </div>
