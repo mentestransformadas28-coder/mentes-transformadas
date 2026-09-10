@@ -6,7 +6,7 @@
 <title>Mentes Transformadas</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600&display=swap');
-:root{--roxo:#2C3020;--roxo-medio:#4A5235;--roxo-claro:#E8EAE0;--roxo-borda:#8A9070;--creme:#F5F5EE;--texto:#1A1E10;--texto-sec:#5C6050;--borda:#C8CAB8;}
+:root{--roxo:#253426;--roxo-medio:#314333;--roxo-claro:#E3D8B8;--roxo-borda:#C5A263;--creme:#F5F2EA;--texto:#1A1E10;--texto-sec:#4A5240;--borda:#C5A263;}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Inter',sans-serif;background:var(--creme);color:var(--texto);font-size:14px;}
 #login-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--roxo);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;}
@@ -17,10 +17,10 @@ body{font-family:'Inter',sans-serif;background:var(--creme);color:var(--texto);f
 .login-field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;text-align:left;}
 .login-field label{font-size:11px;font-weight:600;color:var(--roxo);text-transform:uppercase;letter-spacing:0.05em;}
 .login-field input{font-family:'Inter',sans-serif;font-size:14px;padding:10px 14px;border:1.5px solid var(--borda);border-radius:8px;background:var(--creme);color:var(--texto);width:100%;}
-.login-field input:focus{outline:none;border-color:var(--roxo-medio);box-shadow:0 0 0 3px rgba(74,82,53,0.12);}
+.login-field input:focus{outline:none;border-color:var(--roxo-medio);box-shadow:0 0 0 3px rgba(49,67,51,0.12);}
 .login-erro{color:#c0392b;font-size:12px;margin-bottom:12px;display:none;}
 .btn-login{width:100%;background:var(--roxo);color:white;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;padding:12px;border-radius:8px;border:none;cursor:pointer;margin-top:8px;}
-.app-header{background:var(--roxo);color:white;display:grid;grid-template-columns:auto 1fr auto;align-items:center;padding:10px 20px;gap:16px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(44,48,32,0.3);}
+.app-header{background:var(--roxo);color:white;display:grid;grid-template-columns:auto 1fr auto;align-items:center;padding:10px 20px;gap:16px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(37,52,38,0.3);}
 .header-logos-left{display:flex;align-items:center;gap:10px;}
 .header-center{text-align:center;}
 .header-center h1{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;color:white;margin-bottom:2px;}
@@ -39,17 +39,17 @@ body{font-family:'Inter',sans-serif;background:var(--creme);color:var(--texto);f
 .content-wrap{max-width:860px;margin:0 auto;padding:28px 20px 60px;}
 .fluxo-title{font-family:'Playfair Display',serif;font-size:20px;color:var(--roxo);text-align:center;margin-bottom:28px;padding-bottom:12px;border-bottom:2px solid var(--roxo-claro);}
 .fluxo-steps{display:flex;flex-direction:column;align-items:center;gap:0;}
-.fluxo-box{width:100%;max-width:600px;background:white;border:1.5px solid var(--roxo-borda);border-radius:10px;padding:18px 22px;box-shadow:0 2px 8px rgba(44,48,32,0.08);}
+.fluxo-box{width:100%;max-width:600px;background:white;border:1.5px solid var(--roxo-borda);border-radius:10px;padding:18px 22px;box-shadow:0 2px 8px rgba(37,52,38,0.08);}
 .fluxo-box.destaque{background:var(--roxo-claro);border-color:var(--roxo-medio);}
 .fluxo-box h3{font-size:14px;font-weight:700;color:var(--roxo);margin-bottom:10px;text-align:center;}
 .fluxo-box ol{padding-left:18px;}.fluxo-box ol li{font-size:13px;color:var(--texto);margin-bottom:5px;line-height:1.5;}
 .fluxo-box p{font-size:13px;color:var(--texto);line-height:1.5;}
 .fluxo-arrow{font-size:22px;color:var(--roxo-medio);text-align:center;padding:6px 0;line-height:1;}
-.termo-body{background:white;border-radius:10px;border:1px solid var(--borda);padding:32px 36px;box-shadow:0 1px 4px rgba(44,48,32,0.06);line-height:1.8;}
+.termo-body{background:white;border-radius:10px;border:1px solid var(--borda);padding:32px 36px;box-shadow:0 1px 4px rgba(37,52,38,0.06);line-height:1.8;}
 .termo-body h2{font-family:'Playfair Display',serif;font-size:18px;color:var(--roxo);text-align:center;margin-bottom:6px;}
 .termo-body .subtitle{text-align:center;font-size:13px;color:var(--texto-sec);margin-bottom:24px;font-weight:500;}
 .termo-body p{font-size:13.5px;color:var(--texto);margin-bottom:16px;text-align:justify;}
-.section{margin-bottom:24px;background:white;border-radius:10px;overflow:hidden;border:1px solid var(--borda);box-shadow:0 1px 4px rgba(44,48,32,0.06);}
+.section{margin-bottom:24px;background:white;border-radius:10px;overflow:hidden;border:1px solid var(--borda);box-shadow:0 1px 4px rgba(37,52,38,0.06);}
 .section-header{background:var(--roxo);color:white;padding:10px 20px;font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;}
 .section-body{padding:18px 20px 14px;}
 .row{display:grid;gap:12px;margin-bottom:12px;}.row:last-child{margin-bottom:0;}
@@ -57,7 +57,7 @@ body{font-family:'Inter',sans-serif;background:var(--creme);color:var(--texto);f
 .field{display:flex;flex-direction:column;gap:4px;}
 .field label{font-size:11px;font-weight:600;color:var(--roxo);letter-spacing:0.04em;text-transform:uppercase;}
 .field input,.field select,.field textarea{font-family:'Inter',sans-serif;font-size:13px;color:var(--texto);background:var(--creme);border:1px solid var(--borda);border-radius:6px;padding:8px 10px;transition:border-color 0.2s,box-shadow 0.2s;width:100%;}
-.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--roxo-medio);box-shadow:0 0 0 3px rgba(74,82,53,0.12);background:white;}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--roxo-medio);box-shadow:0 0 0 3px rgba(49,67,51,0.12);background:white;}
 .field textarea{resize:vertical;min-height:68px;line-height:1.5;}
 .check-row{display:flex;flex-direction:column;gap:4px;margin-bottom:12px;}.check-row:last-child{margin-bottom:0;}
 .clabel{font-size:11px;font-weight:600;color:var(--roxo);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:4px;}
@@ -66,7 +66,7 @@ body{font-family:'Inter',sans-serif;background:var(--creme);color:var(--texto);f
 .check-options input[type="checkbox"]{width:14px;height:14px;accent-color:var(--roxo);cursor:pointer;flex-shrink:0;}
 .check-options label:has(input:checked){background:var(--roxo-claro);border-color:var(--roxo-medio);color:var(--roxo);font-weight:500;}
 hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
-.assinatura-row{background:white;border-radius:10px;border:1px solid var(--borda);padding:18px 22px;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;box-shadow:0 1px 4px rgba(44,48,32,0.06);margin-bottom:20px;}
+.assinatura-row{background:white;border-radius:10px;border:1px solid var(--borda);padding:18px 22px;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;box-shadow:0 1px 4px rgba(37,52,38,0.06);margin-bottom:20px;}
 .ass-linha{flex:1;text-align:center;border-top:1.5px solid var(--roxo);padding-top:6px;margin-top:40px;font-size:12px;color:var(--texto-sec);font-weight:500;}
 .acoes{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;flex-wrap:wrap;}
 .btn{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;padding:10px 20px;border-radius:7px;cursor:pointer;border:none;transition:opacity 0.15s;}
@@ -1736,7 +1736,7 @@ function enviarLista(btnEl){
 </div>
 
 <!-- MODAL DE SENHA HISTÓRICO -->
-<div id="modal-historico" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(44,48,32,0.85);z-index:9998;align-items:center;justify-content:center">
+<div id="modal-historico" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(37,52,38,0.85);z-index:9998;align-items:center;justify-content:center">
   <div style="background:white;border-radius:16px;padding:36px;width:100%;max-width:360px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.3)">
     <div style="font-size:40px;margin-bottom:12px">🔒</div>
     <h2 style="font-family:Georgia,serif;font-size:20px;color:var(--roxo);margin-bottom:6px">Área Restrita</h2>
