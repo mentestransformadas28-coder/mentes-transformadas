@@ -1472,31 +1472,50 @@ function enviarLista(btnEl){
     // Renderizar documentos disponíveis
     const docsEl = document.getElementById('docs-paciente');
     if (docsEl) {
-      const tiposDoc = [
-        { label: '📋 Acolhimento', pasta: '01 — Entrada', cor: '#2D5A8C' },
-        { label: '📊 Triagem Social', pasta: '02 — Avaliação Inicial', cor: '#314333' },
-        { label: '🏥 Anamnese', pasta: '02 — Avaliação Inicial', cor: '#314333' },
-        { label: '📄 Termo de Compromisso', pasta: '01 — Entrada', cor: '#2D5A8C' },
-        { label: '📝 Evolução Clínica', pasta: '03 — Acompanhamento', cor: '#253426' },
-        { label: '👥 Prontuário do Grupo', pasta: '03 — Acompanhamento', cor: '#253426' },
-      ];
+      // Buscar links das pastas no Drive
+      docsEl.innerHTML = '<p style="color:var(--texto-sec);font-size:13px">Carregando documentos...</p>';
+      
+      fetch(SCRIPT_URL + '?acao=pastasPaciente&nome=' + encodeURIComponent(nome), { mode: 'cors' })
+        .then(r => r.json())
+        .then(data => {
+          const psiSigilosas = ['leticia', 'kellen'];
+          const temAcessoSigiloso = usuarioLogado && (
+            psiSigilosas.includes(usuarioLogado.usuario) || usuarioLogado.admin
+          );
 
-      // Relatório sigiloso — só para Letícia, Kellen e psicóloga responsável
-      const psiSigilosas = ['leticia', 'kellen'];
-      const temAcessoSigiloso = usuarioLogado && (
-        psiSigilosas.includes(usuarioLogado.usuario) || usuarioLogado.admin
-      );
+          const tiposDoc = [
+            { label: '📋 Acolhimento', pasta: '01 — Entrada' },
+            { label: '📊 Triagem Social', pasta: '02 — Avaliação Inicial' },
+            { label: '🏥 Anamnese', pasta: '02 — Avaliação Inicial' },
+            { label: '📄 Termo de Compromisso', pasta: '01 — Entrada' },
+            { label: '📝 Evolução Clínica', pasta: '03 — Acompanhamento' },
+            { label: '👥 Prontuário do Grupo', pasta: '03 — Acompanhamento' },
+          ];
 
-      if (temAcessoSigiloso) {
-        tiposDoc.push({ label: '🔒 Relatório Clínico (Sigiloso)', pasta: '04 — Relatório Clínico', cor: '#8B0000' });
-      }
+          if (temAcessoSigiloso) {
+            tiposDoc.push({ label: '🔒 Relatório Clínico (Sigiloso)', pasta: '04 — Relatório Clínico (Sigiloso)' });
+          }
 
-      docsEl.innerHTML = tiposDoc.map(d =>
-        `<div style="padding:12px;background:white;border:1px solid var(--borda);border-radius:8px;display:flex;align-items:center;gap:10px">
-          <div style="flex:1;font-size:13px;font-weight:500;color:var(--texto)">${d.label}</div>
-          <div style="font-size:11px;color:var(--texto-sec)">${d.pasta}</div>
-        </div>`
-      ).join('');
+          docsEl.innerHTML = tiposDoc.map(d => {
+            const link = data.subpastas && data.subpastas[d.pasta] ? data.subpastas[d.pasta] : data.principal;
+            return `<a href="${link}" target="_blank" style="padding:12px;background:white;border:1px solid var(--borda);border-radius:8px;display:flex;align-items:center;gap:10px;text-decoration:none;transition:background 0.15s;cursor:pointer" onmouseover="this.style.background='var(--roxo-claro)'" onmouseout="this.style.background='white'">
+              <div style="flex:1;font-size:13px;font-weight:500;color:var(--texto)">${d.label}</div>
+              <div style="font-size:11px;color:var(--texto-sec)">${d.pasta}</div>
+              <span style="color:var(--roxo);font-size:12px">↗</span>
+            </a>`;
+          }).join('');
+
+          // Botão para pasta principal
+          if (data.principal) {
+            docsEl.innerHTML += `<a href="${data.principal}" target="_blank" style="grid-column:1/-1;padding:12px;background:var(--roxo);border-radius:8px;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;color:white;font-size:13px;font-weight:600;margin-top:4px">
+              📁 Abrir pasta completa no Drive ↗
+            </a>`;
+          }
+        })
+        .catch(() => {
+          // Fallback sem links
+          docsEl.innerHTML = '<p style="color:var(--texto-sec);font-size:13px">Conecte-se à internet para ver os documentos.</p>';
+        });
     }
 
     // Mostrar status badge
