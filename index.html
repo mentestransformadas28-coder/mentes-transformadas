@@ -1714,6 +1714,89 @@ function enviarLista(btnEl){
     }, 500);
   }
 
+
+  // Pacientes históricas
+  const PACIENTES_HISTORICAS = [
+    { nome: "Núbia Andrade da Silva Barbosa", telefone: "(34) 99957-3202", nascimento: "", encaminhamento: "Grupo", status: "Histórico", queixa: "Luto da mãe, família dividida por herança", responsavel: "Érica Paula", data: "2024" },
+    { nome: "Andriely Ferreira da Silva", telefone: "(34) 99240-9691", nascimento: "", encaminhamento: "Grupo", status: "Histórico", queixa: "Pressão alta emocional, sem rede de apoio", responsavel: "Érica Paula", data: "2024" },
+    { nome: "Eliana Taina Pereira Soares", telefone: "(34) 99872-5907", nascimento: "", encaminhamento: "Grupo", status: "Histórico", queixa: "Neto autista, filha usuária de drogas", responsavel: "Érica Paula", data: "2024" },
+    { nome: "Karine Fernanda de Silva", telefone: "", nascimento: "", encaminhamento: "Grupo", status: "Histórico", queixa: "Depressão pós-separação", responsavel: "Érica Paula", data: "30/06/2024" },
+    { nome: "Thayna", telefone: "", nascimento: "", encaminhamento: "Grupo", status: "Histórico", queixa: "Crise de ansiedade, sobrecarga", responsavel: "Érica Paula", data: "20/06/2024" },
+    { nome: "Keren das Neves Pereira", telefone: "(22) 99787-9188", nascimento: "", encaminhamento: "Individual", status: "Histórico", queixa: "", responsavel: "Paula Honório", data: "2026" },
+    { nome: "Isabela Messias Durães", telefone: "(34) 99195-7742", nascimento: "", encaminhamento: "Individual", status: "Histórico", queixa: "", responsavel: "Michele Alves", data: "2026" },
+    { nome: "Erika Helena da Silva", telefone: "(34) 99651-0360", nascimento: "", encaminhamento: "Individual", status: "Histórico", queixa: "", responsavel: "Silvania Félix", data: "2026" },
+    { nome: "Divany dos Reis Araujo", telefone: "(34) 99169-9584", nascimento: "", encaminhamento: "Individual", status: "Histórico", queixa: "", responsavel: "Sandra Rodovalho", data: "2026" },
+    { nome: "Letícia Alvarenga Ferreira", telefone: "(34) 98822-2703", nascimento: "", encaminhamento: "Individual", status: "Histórico", queixa: "", responsavel: "Letícia Fernanda", data: "2026" },
+  ];
+
+  // Merge históricas com cadastradas
+  function todasAsPacientes() {
+    const cadastradas = pacientesGrupo.map(p => ({ ...p, origem: 'sistema' }));
+    const historicas = PACIENTES_HISTORICAS.map(p => ({ ...p, origem: 'historico' }));
+    // Remove duplicatas por nome
+    const nomesCadastradas = cadastradas.map(p => p.nome.toLowerCase());
+    const historicasFiltradas = historicas.filter(p => !nomesCadastradas.includes(p.nome.toLowerCase()));
+    return [...cadastradas, ...historicasFiltradas];
+  }
+
+  let filtroAtual = 'todos';
+
+  function filtrarPacientes(filtro) {
+    filtroAtual = filtro;
+    document.querySelectorAll('[id^="filtro-"]').forEach(b => {
+      b.className = 'btn btn-sec';
+      b.style.fontSize = '12px';
+      b.style.padding = '6px 14px';
+    });
+    const btn = document.getElementById('filtro-' + (filtro === 'todos' ? 'todos' : filtro === 'Ativa' ? 'ativa' : filtro === 'Histórico' ? 'historico' : 'espera'));
+    if (btn) { btn.className = 'btn btn-prim'; }
+    renderizarGrupo();
+  }
+
+  const _renderizarGrupoOriginal = renderizarGrupo;
+  renderizarGrupo = function() {
+    const lista = document.getElementById('lista-pac-grupo');
+    if (!lista) return;
+    
+    let pacientes = todasAsPacientes();
+    if (filtroAtual !== 'todos') {
+      pacientes = pacientes.filter(p => p.status === filtroAtual);
+    }
+
+    if (pacientes.length === 0) {
+      lista.innerHTML = '<p style="color:var(--texto-sec);font-size:13px">Nenhuma paciente encontrada.</p>';
+      return;
+    }
+
+    const cores = { 'Ativa': '#2E7D5E', 'Em espera': '#C5A263', 'Concluída': '#2D5A8C', 'Desistiu': '#c0392b', 'Histórico': '#666', 'Aguardando': '#C5A263' };
+    lista.innerHTML = `<table style="width:100%;border-collapse:collapse;font-size:13px">
+      <thead><tr style="background:var(--roxo)">
+        <th style="padding:10px;text-align:left;color:white">Paciente</th>
+        <th style="padding:10px;text-align:left;color:white">Encaminhamento</th>
+        <th style="padding:10px;text-align:left;color:white">Responsável</th>
+        <th style="padding:10px;text-align:center;color:white">Status</th>
+        <th style="padding:10px;text-align:center;color:white">Prontuário</th>
+      </tr></thead>
+      <tbody>${pacientes.map((p, i) => `
+        <tr style="background:${i%2===0?'var(--roxo-claro)':'white'}">
+          <td style="padding:10px;border:1px solid var(--borda)">
+            <div style="font-weight:600">${p.nome}</div>
+            ${p.telefone ? `<div style="font-size:11px;color:var(--texto-sec)">${p.telefone}</div>` : ''}
+          </td>
+          <td style="padding:10px;border:1px solid var(--borda);font-size:12px">${p.encaminhamento || '—'}</td>
+          <td style="padding:10px;border:1px solid var(--borda);font-size:12px">${p.responsavel || '—'}</td>
+          <td style="padding:10px;border:1px solid var(--borda);text-align:center">
+            <span style="background:${cores[p.status]||'#666'};color:white;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600">${p.status}</span>
+          </td>
+          <td style="padding:10px;border:1px solid var(--borda);text-align:center">
+            <button onclick="verProntuarioPac('${p.nome}')" style="background:var(--roxo);color:white;border:none;border-radius:4px;padding:4px 10px;cursor:pointer;font-size:11px">Ver</button>
+          </td>
+        </tr>`).join('')}
+      </tbody>
+    </table>
+    <div style="margin-top:12px;font-size:12px;color:var(--texto-sec);text-align:right">Total: ${pacientes.length} pacientes</div>`;
+  };
+
 </script>
 
 <div class="page" id="cadastro">
@@ -2081,8 +2164,16 @@ function enviarLista(btnEl){
       </div>
     </div>
 
+    <!-- Filtro -->
+    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+      <button onclick="filtrarPacientes('todos')" class="btn btn-prim" id="filtro-todos" style="font-size:12px;padding:6px 14px">Todas</button>
+      <button onclick="filtrarPacientes('Ativa')" class="btn btn-sec" id="filtro-ativa" style="font-size:12px;padding:6px 14px">Ativas</button>
+      <button onclick="filtrarPacientes('Histórico')" class="btn btn-sec" id="filtro-historico" style="font-size:12px;padding:6px 14px">Histórico</button>
+      <button onclick="filtrarPacientes('Em espera')" class="btn btn-sec" id="filtro-espera" style="font-size:12px;padding:6px 14px">Em espera</button>
+    </div>
+
     <div class="section">
-      <div class="section-header">📋 Lista de Pacientes do Grupo</div>
+      <div class="section-header">📋 Lista de Pacientes</div>
       <div class="section-body" id="lista-pac-grupo">
         <p style="color:var(--texto-sec);font-size:13px">Nenhuma paciente cadastrada ainda.</p>
       </div>
