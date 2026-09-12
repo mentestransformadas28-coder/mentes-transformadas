@@ -1093,6 +1093,8 @@ function enviarLista(btnEl){
     atualizarStatProxima();
     const evd = document.getElementById('evol-data');
     if (evd) evd.value = hoje;
+    renderizarMinhaFila();
+    verificarPendencias();
   }
 
   // Dashboard init handled in original showTab below
@@ -1797,6 +1799,192 @@ function enviarLista(btnEl){
     <div style="margin-top:12px;font-size:12px;color:var(--texto-sec);text-align:right">Total: ${pacientes.length} pacientes</div>`;
   };
 
+
+  // ── SISTEMA DE FILA E ENCAMINHAMENTOS ──
+  
+  const EMAILS_EQUIPE = {
+    'camila':  'camilaal98@gmail.com',
+    'erica':   'ericapaulaayala@gmail.com',
+    'kellen':  'kdbpimenta@gmail.com',
+    'leticia': 'leticiamoraes221@hotmail.com',
+    'paula':   'pastora.paulahonorio@gmail.com',
+    'debora':  'deborahellen066@gmail.com',
+    'sandra':  'sandrarodovalhopsico@gmail.com',
+  };
+
+  // Etapas do fluxo
+  const ETAPAS = {
+    'nova':        { label: 'Nova solicitação',          proxima: 'contato_camila',    responsavel: 'kellen' },
+    'contato_camila': { label: 'Aguardando contato Camila', proxima: 'avaliacao_erica', responsavel: 'camila' },
+    'avaliacao_erica':{ label: 'Aguardando avaliação social', proxima: 'decisao_camila', responsavel: 'erica' },
+    'decisao_camila': { label: 'Aguardando decisão Camila', proxima: 'anamnese',       responsavel: 'camila' },
+    'anamnese':    { label: 'Aguardando anamnese',        proxima: 'encaminhamento',   responsavel: 'psicologa' },
+    'grupo':       { label: 'Encaminhada para grupo',     proxima: null,               responsavel: 'leticia' },
+    'individual':  { label: 'Encaminhada individual',     proxima: null,               responsavel: 'psicologa' },
+    'ativa':       { label: 'Em atendimento',             proxima: null,               responsavel: null },
+  };
+
+  // Fila de pacientes no fluxo (salvo no localStorage)
+  let filaFluxo = JSON.parse(localStorage.getItem('mt_fila_fluxo') || '[]');
+
+  function salvarFila() {
+    localStorage.setItem('mt_fila_fluxo', JSON.stringify(filaFluxo));
+  }
+
+  function adicionarPacienteFluxo(nome, telefone) {
+    const existe = filaFluxo.find(p => p.nome === nome);
+    if (existe) return;
+    filaFluxo.push({
+      nome,
+      telefone: telefone || '',
+      etapa: 'contato_camila',
+      historico: [{ etapa: 'nova', data: new Date().toLocaleString('pt-BR'), por: usuarioLogado?.nome || '' }],
+      psicologa: null,
+    });
+    salvarFila();
+    renderizarMinhaFila();
+  }
+
+  function avancarEtapa(nomePac, novaEtapa, psicologa) {
+    const pac = filaFluxo.find(p => p.nome === nomePac);
+    if (!pac) return;
+    const etapaAnterior = pac.etapa;
+    pac.etapa = novaEtapa;
+    if (psicologa) pac.psicologa = psicologa;
+    pac.historico.push({ etapa: novaEtapa, data: new Date().toLocaleString('pt-BR'), por: usuarioLogado?.nome || '' });
+    salvarFila();
+    
+    // Enviar notificação
+    enviarNotificacaoFluxo(nomePac, novaEtapa, psicologa);
+    renderizarMinhaFila();
+    alert('✅ ' + nomePac + ' encaminhada! E-mail enviado automaticamente.');
+  }
+
+  function enviarNotificacaoFluxo(nomePac, etapa, psicologa) {
+    const etapaInfo = ETAPAS[etapa];
+    if (!etapaInfo) return;
+
+    let destinatario = etapaInfo.responsavel;
+    if (etapa === 'anamnese' && psicologa) destinatario = psicologa;
+    if (etapa === 'individual' && psicologa) destinatario = psicologa;
+
+    const emailDest = EMAILS_EQUIPE[destinatario] || EMAILS_EQUIPE['leticia'];
+    
+    const campos = {
+      'Tipo': 'notificacao_fluxo',
+      'Paciente': nomePac,
+      'Etapa': etapaInfo.label,
+      'Encaminhado por': usuarioLogado?.nome || '',
+      'Destinatario': emailDest,
+      'Responsavel': destinatario,
+    };
+
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: JSON.stringify({ tipo: 'notificacao_fluxo', campos })
+    }).catch(() => {});
+  }
+
+  function renderizarMinhaFila() {
+    const body = document.getElementById('minha-fila-body');
+    const header = document.getElementById('minha-fila-header');
+    if (!body || !usuarioLogado) return;
+
+    const usuario = usuarioLogado.usuario;
+    let minhasFila = [];
+
+    // Filtrar por perfil
+    if (usuario === 'kellen') {
+      // Kellen vê novas solicitações para encaminhar para Camila
+      minhasFila = filaFluxo.filter(p => p.etapa === 'nova');
+    } else if (usuario === 'camila') {
+      // Camila vê: contato inicial e pós-avaliação Érica
+      minhasFila = filaFluxo.filter(p => p.etapa === 'contato_camila' || p.etapa === 'decisao_camila');
+    } else if (usuario === 'erica') {
+      // Érica vê: aguardando avaliação social
+      minhasFila = filaFluxo.filter(p => p.etapa === 'avaliacao_erica');
+    } else if (['paula','debora','sandra'].includes(usuario)) {
+      // Psicólogas veem: aguardando anamnese delas
+      minhasFila = filaFluxo.filter(p => p.etapa === 'anamnese' && p.psicologa === usuario);
+    } else if (usuario === 'leticia') {
+      // Letícia vê: encaminhadas para grupo + todas as etapas (visão geral)
+      minhasFila = filaFluxo.filter(p => p.etapa === 'grupo' || p.etapa === 'anamnese');
+    }
+
+    if (header) header.textContent = '📋 Minha Fila (' + minhasFila.length + ')';
+
+    if (minhasFila.length === 0) {
+      body.innerHTML = '<div style="color:#2E7D5E;font-size:13px;padding:8px">✅ Nenhuma paciente aguardando sua ação no momento.</div>';
+      return;
+    }
+
+    const psicologas = [
+      { value: 'paula', label: 'Paula Gonçalves — CRP 04/55110' },
+      { value: 'debora', label: 'Débora Hellen — CRP 04/82984' },
+      { value: 'sandra', label: 'Sandra Rodovalho — CRP 04/48003' },
+      { value: 'kellen', label: 'Kellen Domingues — CRP 20304/4ª' },
+      { value: 'leticia', label: 'Letícia Fernanda — CRP 04/82168' },
+    ];
+
+    body.innerHTML = minhasFila.map(p => {
+      const etapaInfo = ETAPAS[p.etapa] || {};
+      let botoes = '';
+
+      if (usuario === 'kellen' && p.etapa === 'nova') {
+        botoes = `<button onclick="avancarEtapa('${p.nome}','contato_camila',null)" class="btn btn-prim" style="font-size:12px;padding:6px 14px">📤 Encaminhar para Camila</button>`;
+      } else if (usuario === 'camila' && p.etapa === 'contato_camila') {
+        botoes = `<button onclick="avancarEtapa('${p.nome}','avaliacao_erica',null)" class="btn btn-prim" style="font-size:12px;padding:6px 14px">📤 Encaminhar para Érica</button>`;
+      } else if (usuario === 'erica' && p.etapa === 'avaliacao_erica') {
+        botoes = `<button onclick="avancarEtapa('${p.nome}','decisao_camila',null)" class="btn btn-prim" style="font-size:12px;padding:6px 14px">✅ Avaliação concluída → Camila</button>`;
+      } else if (usuario === 'camila' && p.etapa === 'decisao_camila') {
+        const optsHtml = psicologas.map(ps => `<option value="${ps.value}">${ps.label}</option>`).join('');
+        botoes = `
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+            <select id="psi-sel-${p.nome.replace(/\s/g,'_')}" style="flex:1;font-size:12px;padding:6px;border:1px solid var(--borda);border-radius:6px">
+              <option value="">Selecionar psicóloga...</option>
+              ${optsHtml}
+            </select>
+            <button onclick="encaminharParaPsicologa('${p.nome}')" class="btn btn-prim" style="font-size:12px;padding:6px 14px">📤 Encaminhar para Psicóloga</button>
+          </div>`;
+      } else if (['paula','debora','sandra','kellen','leticia'].includes(usuario) && p.etapa === 'anamnese') {
+        botoes = `
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+            <button onclick="avancarEtapa('${p.nome}','grupo',null)" class="btn btn-prim" style="font-size:12px;padding:6px 14px;background:#2E7D5E">👥 Encaminhar para Grupo</button>
+            <button onclick="avancarEtapa('${p.nome}','individual','${usuario}')" class="btn btn-prim" style="font-size:12px;padding:6px 14px;background:#2D5A8C">🧑 Atendimento Individual</button>
+          </div>`;
+      } else if (usuario === 'leticia' && p.etapa === 'grupo') {
+        botoes = `<button onclick="avancarEtapa('${p.nome}','ativa',null)" class="btn btn-prim" style="font-size:12px;padding:6px 14px;background:#2E7D5E">✅ Confirmar entrada no grupo</button>`;
+      }
+
+      return `<div style="padding:14px;background:var(--roxo-claro);border-radius:10px;border:1px solid var(--roxo-borda);margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+          <div>
+            <div style="font-weight:700;color:var(--roxo);font-size:14px">${p.nome}</div>
+            ${p.telefone ? `<div style="font-size:12px;color:var(--texto-sec)">📱 ${p.telefone}</div>` : ''}
+          </div>
+          <span style="background:var(--roxo);color:white;font-size:10px;padding:3px 10px;border-radius:12px;white-space:nowrap">${etapaInfo.label || p.etapa}</span>
+        </div>
+        ${botoes}
+      </div>`;
+    }).join('');
+  }
+
+  function encaminharParaPsicologa(nomePac) {
+    const sel = document.getElementById('psi-sel-' + nomePac.replace(/\s/g,'_'));
+    if (!sel || !sel.value) { alert('Selecione uma psicóloga!'); return; }
+    avancarEtapa(nomePac, 'anamnese', sel.value);
+  }
+
+  // Adicionar paciente ao fluxo quando cadastrada no acolhimento
+  function adicionarNovaAoFluxo() {
+    const nome = document.getElementById('ac-nome')?.value.trim();
+    const tel = document.querySelector('#acolhimento input[type="tel"]')?.value.trim();
+    if (!nome) { alert('Preencha o nome da paciente primeiro!'); return; }
+    adicionarPacienteFluxo(nome, tel);
+    alert('✅ ' + nome + ' adicionada à fila de atendimento!');
+  }
+
 </script>
 
 <div class="page" id="cadastro">
@@ -1866,6 +2054,14 @@ function enviarLista(btnEl){
         <div id="aniversariantes-pacientes" style="display:flex;flex-direction:column;gap:8px">
           <p style="color:var(--texto-sec);font-size:13px" id="msg-aniv-pac">Carregando...</p>
         </div>
+      </div>
+    </div>
+
+    <!-- MINHA FILA -->
+    <div class="section" id="minha-fila-section">
+      <div class="section-header" id="minha-fila-header">📋 Minha Fila</div>
+      <div class="section-body" id="minha-fila-body">
+        <p style="color:var(--texto-sec);font-size:13px">Carregando...</p>
       </div>
     </div>
 
@@ -2131,6 +2327,7 @@ function enviarLista(btnEl){
 
     <div class="acoes">
       <button class="btn btn-sec" onclick="limparAcolhimento()">Limpar</button>
+      <button class="btn" style="background:#2E7D5E;color:white" onclick="adicionarNovaAoFluxo()">➕ Adicionar à Fila</button>
       <button class="btn" style="background:#2D5A8C;color:white" onclick="enviarParaDrive('acolhimento','acolhimento',this)">📤 Enviar para Drive</button>
       <button class="btn btn-prim" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>
     </div>
