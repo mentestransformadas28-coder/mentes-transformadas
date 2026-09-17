@@ -107,7 +107,7 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
 </div>
 <div class="nav-tabs">
   <button class="tab-btn active" onclick="showTab('dashboard',this)">📊 Dashboard</button>
-  <button class="tab-btn" onclick="showTab('cadastro',this)">Pacientes</button>
+  <button class="tab-btn" onclick="showTab('pacientes',this);renderCentralPacientes()">Pacientes</button>
   <button class="tab-btn" onclick="showTab('triagem',this)">Triagem Social</button>
   <button class="tab-btn" onclick="showTab('anamnese',this)">Anamnese</button>
   <button class="tab-btn" onclick="showTab('lista-presenca',this)">Grupo</button>
@@ -1386,7 +1386,99 @@ function enviarLista(btnEl){
     document.getElementById('ac-idade').value = '';
   }
 
+
+// ── CENTRAL DE PACIENTES (V3) ──
+// Nesta etapa a central é apenas uma camada de organização.
+// O Cadastro, Triagem, Anamnese, Grupo, Histórico e integrações existentes permanecem intactos.
+const centralPacientesBase = [
+  {
+    nome: 'Keila Regina',
+    etapa: 'Triagem',
+    responsavel: 'Camila',
+    atualizacao: 'Triagem Social concluída',
+    proximaAcao: 'Aguardando encaminhamento para psicóloga'
+  }
+];
+
+function renderCentralPacientes(){
+  const box = document.getElementById('cp-lista');
+  if(!box) return;
+  const busca = (document.getElementById('cp-busca')?.value || '').trim().toLowerCase();
+  const filtro = document.getElementById('cp-filtro')?.value || '';
+  const lista = centralPacientesBase.filter(p =>
+    (!busca || p.nome.toLowerCase().includes(busca)) &&
+    (!filtro || p.etapa === filtro)
+  );
+
+  if(!lista.length){
+    box.innerHTML = '<div style="padding:24px;text-align:center;color:var(--texto-sec);border:1px dashed var(--borda);border-radius:10px">Nenhuma paciente encontrada neste filtro.</div>';
+    return;
+  }
+
+  box.innerHTML = lista.map(p => `
+    <div style="border:1px solid var(--borda);border-radius:12px;background:#fff;padding:16px;margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap">
+        <div style="min-width:220px">
+          <div style="font-weight:700;color:var(--roxo);font-size:15px">${p.nome}</div>
+          <div style="font-size:12px;color:var(--texto-sec);margin-top:4px">${p.proximaAcao}</div>
+        </div>
+        <div style="display:flex;gap:22px;flex-wrap:wrap;font-size:12px">
+          <div><span style="color:var(--texto-sec)">Etapa atual</span><br><strong>${p.etapa}</strong></div>
+          <div><span style="color:var(--texto-sec)">Responsável atual</span><br><strong>${p.responsavel}</strong></div>
+          <div><span style="color:var(--texto-sec)">Última atualização</span><br><strong>${p.atualizacao}</strong></div>
+        </div>
+        <button class="btn btn-sec" onclick="alert('A ficha única da paciente será criada na próxima etapa. Nenhum dado foi alterado.')">Ver ficha</button>
+      </div>
+    </div>
+  `).join('');
+}
+
 </script>
+
+
+<!-- CENTRAL DE PACIENTES -->
+<div class="page" id="pacientes">
+  <div class="content-wrap">
+    <div class="section">
+      <div class="section-header" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <span>Pacientes</span>
+        <button class="btn btn-prim" onclick="showTab('cadastro',document.querySelector('.tab-btn[onclick*=pacientes]'))">+ Nova paciente</button>
+      </div>
+      <div class="section-body">
+        <div class="row c2">
+          <div class="field">
+            <label>Buscar paciente</label>
+            <input id="cp-busca" type="text" placeholder="Digite o nome da paciente" oninput="renderCentralPacientes()">
+          </div>
+          <div class="field">
+            <label>Filtrar por etapa</label>
+            <select id="cp-filtro" onchange="renderCentralPacientes()">
+              <option value="">Todos</option>
+              <option value="Aguardando contato">Aguardando contato</option>
+              <option value="Triagem">Triagem</option>
+              <option value="Anamnese">Anamnese</option>
+              <option value="Grupo">Grupo</option>
+              <option value="Individual">Individual</option>
+              <option value="Encerrado">Encerrados</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 18px">
+          <button class="btn btn-sec" onclick="document.getElementById('cp-filtro').value='';renderCentralPacientes()">Todos</button>
+          <button class="btn btn-sec" onclick="document.getElementById('cp-filtro').value='Aguardando contato';renderCentralPacientes()">Aguardando contato</button>
+          <button class="btn btn-sec" onclick="document.getElementById('cp-filtro').value='Triagem';renderCentralPacientes()">Triagem</button>
+          <button class="btn btn-sec" onclick="document.getElementById('cp-filtro').value='Anamnese';renderCentralPacientes()">Anamnese</button>
+          <button class="btn btn-sec" onclick="document.getElementById('cp-filtro').value='Grupo';renderCentralPacientes()">Grupo</button>
+          <button class="btn btn-sec" onclick="document.getElementById('cp-filtro').value='Individual';renderCentralPacientes()">Individual</button>
+          <button class="btn btn-sec" onclick="document.getElementById('cp-filtro').value='Encerrado';renderCentralPacientes()">Encerrados</button>
+        </div>
+
+        <div id="cp-lista"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="page" id="cadastro">
   <div class="content-wrap">
