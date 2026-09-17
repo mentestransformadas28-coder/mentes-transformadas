@@ -116,7 +116,6 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
   <button class="tab-btn" onclick="showTab('cadastro',this)">Cadastro</button>
   <button class="tab-btn" onclick="showTab('acolhimento',this)">Acolhimento</button>
   <button class="tab-btn" onclick="showTab('dashboard',this)">📊 Dashboard</button>
-  <button class="tab-btn" onclick="showTab('agenda',this)">📅 Agenda</button>
   <button class="tab-btn" onclick="abrirHistorico(this)">🔒 Histórico</button>
 </div>
 <div class="aviso-bar">Proibida a divulgacao deste documento externamente sem autorizacao</div>
@@ -1357,6 +1356,19 @@ function enviarLista(btnEl){
 
 // ── FLUXO OPERACIONAL DE PACIENTES ──
 let fluxoPacientes = JSON.parse(localStorage.getItem('mt_fluxo_pacientes') || '[]');
+if (!fluxoPacientes.some(p => (p.nome || '').trim().toLowerCase() === 'keila regina')) {
+  fluxoPacientes.unshift({
+    id: 170920260001,
+    nome: 'Keila Regina',
+    telefone: '',
+    origem: '',
+    status: 'Aguardando encaminhamento',
+    psicologa: '',
+    obs: 'Triagem Social realizada por Érica. Apta para prosseguir para a etapa psicológica.',
+    atualizadoEm: new Date().toISOString()
+  });
+  localStorage.setItem('mt_fluxo_pacientes', JSON.stringify(fluxoPacientes));
+}
 
 function salvarFluxoPaciente(){
   const nome = document.getElementById('fp-nome').value.trim();
