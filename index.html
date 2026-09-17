@@ -108,9 +108,12 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
 <div class="nav-tabs">
   <button class="tab-btn active" onclick="showTab('dashboard',this)">📊 Dashboard</button>
   <button class="tab-btn" onclick="showTab('pacientes',this);renderCentralPacientes()">Pacientes</button>
+  <button class="tab-btn" onclick="showTab('fluxos-central',this)">Fluxos</button>
   <button class="tab-btn" onclick="showTab('triagem',this)">Triagem Social</button>
   <button class="tab-btn" onclick="showTab('anamnese',this)">Anamnese</button>
   <button class="tab-btn" onclick="showTab('lista-presenca',this)">Grupo</button>
+  <button class="tab-btn" onclick="showTab('termos-central',this)">Termos</button>
+  <button class="tab-btn" onclick="showTab('equipe-central',this)">Equipe</button>
   <button class="tab-btn" onclick="abrirHistorico(this)">🔒 Histórico</button>
 </div>
 <div class="aviso-bar">Proibida a divulgacao deste documento externamente sem autorizacao</div>
@@ -1435,6 +1438,26 @@ function renderCentralPacientes(){
 
 </script>
 
+
+
+<!-- CENTRAIS V4 -->
+<div class="page" id="fluxos-central"><div class="content-wrap"><div class="section">
+<div class="section-header">Fluxos</div><div class="section-body">
+<p style="font-size:13px;color:var(--texto-sec)">Os fluxos permanecem no padrão antigo e identificados por função profissional, sem nomes próprios.</p>
+<div class="row c2">
+<div style="border:1px solid var(--borda);border-radius:12px;padding:18px;background:#fff"><h3>Fluxo de Acolhimento</h3><button class="btn btn-sec" onclick="showTab('fluxo-acolhimento',this)">Abrir fluxo</button></div>
+<div style="border:1px solid var(--borda);border-radius:12px;padding:18px;background:#fff"><h3>Fluxo do Grupo</h3><button class="btn btn-sec" onclick="showTab('fluxo-grupo',this)">Abrir fluxo</button></div>
+</div></div></div></div></div>
+
+<div class="page" id="termos-central"><div class="content-wrap"><div class="section">
+<div class="section-header">Termos de Compromisso</div><div class="section-body"><div class="row c2">
+<div style="border:1px solid var(--borda);border-radius:12px;padding:18px;background:#fff"><h3>Grupo Psicoterapêutico</h3><p><strong>R$ 60,00</strong> de inscrição.</p><button class="btn btn-sec" onclick="showTab('termo',this)">Abrir termo existente</button></div>
+<div style="border:1px solid var(--borda);border-radius:12px;padding:18px;background:#fff"><h3>Atendimento Individual</h3><p><strong>4 atendimentos de R$ 85,00</strong> — total R$ 340,00.</p><p style="font-size:12px;color:var(--texto-sec)">O termo individual será estruturado sem alterar o termo já existente.</p></div>
+</div></div></div></div></div>
+
+<div class="page" id="equipe-central"><div class="content-wrap"><div class="section">
+<div class="section-header">Equipe</div><div class="section-body"><p style="font-size:13px;color:var(--texto-sec)">Área da equipe. Os nomes, funções e permissões serão organizados em etapa própria.</p></div>
+</div></div></div>
 
 <!-- CENTRAL DE PACIENTES -->
 <div class="page" id="pacientes">
