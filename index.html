@@ -106,107 +106,33 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
   </div>
 </div>
 <div class="nav-tabs">
-  <button class="tab-btn active" onclick="showTab('fluxo-acolhimento',this)">Fluxo Acolhimento</button>
-  <button class="tab-btn" onclick="showTab('fluxo-grupo',this)">Fluxo Grupo</button>
-  <button class="tab-btn" onclick="showTab('termo',this)">Termo de Compromisso</button>
-  <button class="tab-btn" onclick="showTab('fluxo-pacientes',this);renderFluxoPacientes()">Fluxo de Pacientes</button>
+  <button class="tab-btn active" onclick="showTab('dashboard',this)">📊 Dashboard</button>
+  <button class="tab-btn" onclick="showTab('cadastro',this)">Pacientes</button>
   <button class="tab-btn" onclick="showTab('triagem',this)">Triagem Social</button>
   <button class="tab-btn" onclick="showTab('anamnese',this)">Anamnese</button>
-  <button class="tab-btn" onclick="showTab('lista-presenca',this)">Prontuario do Grupo</button>
-  <button class="tab-btn" onclick="showTab('cadastro',this)">Cadastro</button>
-  <button class="tab-btn" onclick="showTab('acolhimento',this)">Acolhimento</button>
-  <button class="tab-btn" onclick="showTab('dashboard',this)">📊 Dashboard</button>
+  <button class="tab-btn" onclick="showTab('lista-presenca',this)">Grupo</button>
   <button class="tab-btn" onclick="abrirHistorico(this)">🔒 Histórico</button>
 </div>
 <div class="aviso-bar">Proibida a divulgacao deste documento externamente sem autorizacao</div>
 
 
 <!-- FLUXO ACOLHIMENTO -->
-<div class="page active" id="fluxo-acolhimento">
+<div class="page" id="fluxo-acolhimento">
   <div class="content-wrap">
     <div class="fluxo-title">Fluxograma – Acolhimento</div>
     <div class="fluxo-steps">
-      <div class="fluxo-box destaque"><h3>Chegada da Demanda</h3><p style="text-align:center">Ministério Lucas, pastor, liderança ou contato direto → Kellen</p></div>
+      <div class="fluxo-box destaque"><h3>Chegada de Demandas</h3><p style="text-align:center">Encaminhar ao Ministério Lucas</p></div>
       <div class="fluxo-arrow">▼</div>
-      <div class="fluxo-box"><h3>Kellen — Recebimento</h3><ol><li>Receber a demanda;</li><li>Registrar os dados iniciais;</li><li>Encaminhar para Camila.</li></ol></div>
+      <div class="fluxo-box"><h3>Ministério Lucas</h3><ol><li>1º Acolhimento via telefone para direcionamento;</li><li>Encaminhar para Mentes Transformadas.</li></ol></div>
       <div class="fluxo-arrow">▼</div>
-      <div class="fluxo-box"><h3>Camila — Primeiro Contato</h3><ol><li>Apresentar o Mentes Transformadas;</li><li>Informar atendimento individual (R$ 340,00) e grupo (R$ 60,00 de inscrição);</li><li>Se houver interesse, encaminhar para Triagem Social.</li></ol></div>
+      <div class="fluxo-box"><h3>Mentes Transformadas — Triagem</h3><ol><li>Agendar acolhimento presencial;</li><li>Aplicar questionário socioeconômico;</li><li>Coletar assinatura do Termo de Ciência e Compromisso;</li><li>Direcionar para Entrevista Clínica.</li></ol></div>
       <div class="fluxo-arrow">▼</div>
-      <div class="fluxo-box"><h3>Érica — Triagem Social</h3><ol><li>Agendar atendimento online e/ou presencial;</li><li>Realizar a Triagem Social;</li><li>Registrar se a pessoa deseja prosseguir para a etapa psicológica.</li></ol></div>
-      <div class="fluxo-arrow">▼</div>
-      <div class="fluxo-box"><h3>Camila — Encaminhamento</h3><ol><li>Receber o caso após a Triagem Social;</li><li>Selecionar a psicóloga responsável;</li><li>Encaminhar para Anamnese.</li></ol></div>
-      <div class="fluxo-arrow">▼</div>
-      <div class="fluxo-box"><h3>Psicóloga — Anamnese</h3><ol><li>Realizar a Anamnese;</li><li>Avaliar o direcionamento;</li><li>Definir Grupo ou Individual.</li></ol></div>
+      <div class="fluxo-box"><h3>Mentes Transformadas — Entrevista Clínica</h3><ol><li>Agendar entrevista presencial;</li><li>Aplicar formulário de Entrevista Clínica;</li><li>Direcionar conforme avaliação clínica.</li></ol></div>
       <div class="fluxo-arrow">▼</div>
       <div style="display:flex;gap:16px;width:100%;max-width:600px">
-        <div class="fluxo-box destaque" style="flex:1;text-align:center"><h3>Grupo Psicoterapêutico</h3><p>Direcionamento definido após a Anamnese</p></div>
+        <div class="fluxo-box destaque" style="flex:1;text-align:center"><h3>Grupo Psicoterapêutico</h3><p>Participação no grupo terapêutico do Mentes Transformadas</p></div>
         <div style="display:flex;align-items:center;font-size:20px;color:var(--roxo-medio);font-weight:700">OU</div>
-        <div class="fluxo-box destaque" style="flex:1;text-align:center"><h3>Atendimento Individual</h3><p>Direcionamento definido após a Anamnese</p></div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-
-
-<!-- FLUXO OPERACIONAL DE PACIENTES -->
-<div class="page" id="fluxo-pacientes">
-  <div class="content-wrap">
-    <div class="section">
-      <div class="section-header">Fluxo de Pacientes — Acompanhamento</div>
-      <div class="section-body">
-        <div style="font-size:13px;color:var(--texto-sec);line-height:1.6;margin-bottom:16px">
-          Um único registro acompanha a paciente desde o recebimento pela Kellen até a Anamnese e o direcionamento final.
-        </div>
-        <div class="row c3">
-          <div class="field"><label>Nome da paciente</label><input id="fp-nome" type="text"></div>
-          <div class="field"><label>Telefone / WhatsApp</label><input id="fp-telefone" type="tel"></div>
-          <div class="field"><label>Origem da demanda</label>
-            <select id="fp-origem"><option value="">Selecionar...</option><option>Ministério Lucas</option><option>Pastor</option><option>Liderança</option><option>Contato direto</option><option>Outro</option></select>
-          </div>
-        </div>
-        <div class="row c2">
-          <div class="field"><label>Status / etapa atual</label>
-            <select id="fp-status">
-              <option value="Aguardando Camila">Aguardando Camila — primeiro contato</option>
-              <option value="Aguardando Triagem Social">Aguardando Triagem Social — Érica</option>
-              <option value="Triagem em andamento">Triagem em andamento — Érica</option>
-              <option value="Aguardando encaminhamento">Aguardando encaminhamento — Camila</option>
-              <option value="Aguardando Anamnese">Aguardando Anamnese — Psicóloga</option>
-              <option value="Grupo Psicoterapêutico">Grupo Psicoterapêutico</option>
-              <option value="Atendimento Individual">Atendimento Individual</option>
-              <option value="Encerrada">Encerrada</option>
-            </select>
-          </div>
-          <div class="field"><label>Psicóloga responsável</label>
-            <select id="fp-psicologa">
-              <option value="">Ainda não definida</option>
-              <option>Paula</option><option>Débora</option><option>Sandra</option><option>Letícia</option>
-            </select>
-          </div>
-        </div>
-        <div class="field"><label>Observações do fluxo</label><textarea id="fp-obs" rows="3"></textarea></div>
-        <div class="acoes" style="justify-content:flex-start">
-          <button class="btn btn-prim" onclick="salvarFluxoPaciente()">Salvar paciente no fluxo</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header">Pacientes no Fluxo</div>
-      <div class="section-body">
-        <div class="row c2" style="margin-bottom:12px">
-          <div class="field"><label>Filtrar por etapa</label>
-            <select id="fp-filtro" onchange="renderFluxoPacientes()">
-              <option value="">Todas</option>
-              <option>Aguardando Camila</option><option>Aguardando Triagem Social</option><option>Triagem em andamento</option>
-              <option>Aguardando encaminhamento</option><option>Aguardando Anamnese</option>
-              <option>Grupo Psicoterapêutico</option><option>Atendimento Individual</option><option>Encerrada</option>
-            </select>
-          </div>
-          <div class="field"><label>Buscar paciente</label><input id="fp-busca" type="text" oninput="renderFluxoPacientes()" placeholder="Digite o nome"></div>
-        </div>
-        <div id="fp-lista"></div>
+        <div class="fluxo-box destaque" style="flex:1;text-align:center"><h3>Atendimento Individual</h3><p>Encaminhamento para psicoterapia individual mediante contrato direto</p></div>
       </div>
     </div>
   </div>
@@ -339,22 +265,6 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
       <div class="field"><textarea rows="5"></textarea></div>
     </div></div>
 
-
-    <div class="section">
-      <div class="section-header">8. Direcionamento após Anamnese</div>
-      <div class="section-body">
-        <div class="field"><label>Direcionamento</label>
-          <select id="anamnese-direcionamento">
-            <option value="">Selecionar...</option>
-            <option>Grupo Psicoterapêutico</option>
-            <option>Atendimento Individual</option>
-            <option>Outro encaminhamento</option>
-          </select>
-        </div>
-        <div class="field"><label>Observações do direcionamento</label><textarea rows="3"></textarea></div>
-      </div>
-    </div>
-
     <div class="assinatura-row">
       <div style="flex:1"><div class="field"><label>Data</label><input type="date" id="data-anamnese" style="max-width:200px"></div></div>
       <div class="ass-linha">Psicóloga &nbsp;│&nbsp; CRP ___________</div>
@@ -386,7 +296,7 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
         <div class="field"><label>É WhatsApp?</label><select><option value="">Selecionar...</option><option>Sim</option><option>Não</option></select></div>
         <div class="field"><label>CPF</label><input type="text" placeholder="000.000.000-00"></div>
       </div>
-      <div class="row c2"><div class="field"><label>RG</label><input type="text"></div><div class="field"><label>E-mail</label><input type="email" placeholder="nome@exemplo.com"></div></div>
+      <div class="row c1"><div class="field"><label>RG</label><input type="text"></div></div>
     </div></div>
 
     <div class="section"><div class="section-header">2. Aspecto de Desenvolvimento</div><div class="section-body">
@@ -425,7 +335,7 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
       <div class="row c1"><div class="field"><label>Possui mobilidade reduzida?</label><input type="text" placeholder="Não / Sim, qual?"></div></div>
       <div class="row c1"><div class="field"><label>Faz tratamento em rede Saúde Mental?</label><input type="text" placeholder="Não / Sim, onde?"></div></div>
       <div class="row c1"><div class="field"><label>Faz uso de medicação de uso contínuo?</label><input type="text" placeholder="Não / Sim, qual?"></div></div>
-      <div class="row c1"><div class="field"><label>Realiza acompanhamento psiquiátrico?</label><input type="text" placeholder="Não / Sim, onde?"></div></div>
+      <div class="row c1"><div class="field"><label>Realizou acompanhamento psiquiátrico?</label><input type="text" placeholder="Não / Sim, onde?"></div></div>
       <div class="row c1"><div class="field"><label>Realiza acompanhamento psicológico?</label><input type="text" placeholder="Não / Sim, onde?"></div></div>
       <div class="row c1"><div class="field"><label>Possui suporte afetivo?</label><input type="text" placeholder="Não / Sim, quem?"></div></div>
       <div class="row c1"><div class="field"><label>Possui rede de apoio?</label><input type="text" placeholder="Não / Sim, quem?"></div></div>
@@ -459,29 +369,17 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
           <div class="field"><label>Renda total – Despesas (B+C)</label><input type="text" placeholder="R$"></div>
         </div>
         <div class="row c1"><div class="field"><label>Renda per capita (÷ nº de pessoas)</label><input type="text" placeholder="R$"></div></div>
-        <div class="check-row" style="margin-top:8px"><div class="clabel">Renda per capita de até 1 salário mínimo?</div><div class="check-options"><label><input type="checkbox"> Sim</label><label><input type="checkbox"> Não</label></div></div>
+        <div class="check-row" style="margin-top:8px"><div class="clabel">Renda per capita de até 1 salário mínimo (R$ 1.412,00)?</div><div class="check-options"><label><input type="checkbox"> Sim</label><label><input type="checkbox"> Não</label></div></div>
       </div>
     </div></div>
 
     <div class="section"><div class="section-header">9. Queixa Principal</div><div class="section-body"><div class="field"><textarea rows="4"></textarea></div></div></div>
     <div class="section"><div class="section-header">10. Informado da Taxa</div><div class="section-body"><div class="field"><textarea rows="3"></textarea></div></div></div>
-
-
-    <div class="section">
-      <div class="section-header">11. Resultado da Triagem Social</div>
-      <div class="section-body">
-        <div class="field"><label>Deseja prosseguir para a etapa psicológica?</label>
-          <select id="triagem-prosseguir">
-            <option value="">Selecionar...</option>
-            <option value="sim">Sim — prosseguir para psicóloga</option>
-            <option value="nao">Não — encerrar fluxo</option>
-            <option value="pendente">Pendente</option>
-          </select>
-        </div>
-        <div class="field"><label>Observação de encaminhamento</label><textarea id="triagem-obs-enc" rows="3"></textarea></div>
-        <div style="font-size:12px;color:var(--texto-sec);margin-top:8px">A definição entre Grupo e Individual será realizada pela psicóloga após a Anamnese.</div>
-      </div>
-    </div>
+    <div class="section"><div class="section-header">11. Critério de Desconto</div><div class="section-body">
+      <div style="font-size:12px;color:var(--texto-sec);margin-bottom:10px;line-height:1.5">Critério: renda de até 01 salário mínimo por pessoa, considerando totais de renda menos despesas.</div>
+      <div class="check-row"><div class="clabel">Usuária(o) enquadra no critério de desconto?</div><div class="check-options"><label><input type="checkbox"> Sim</label><label><input type="checkbox"> Não</label></div></div>
+      <div class="field"><label>Observações</label><textarea rows="2"></textarea></div>
+    </div></div>
 
     <div class="assinatura-row">
       <div style="flex:1"><div class="field"><label>Data</label><input type="date" id="data-triagem" style="max-width:200px"></div></div>
@@ -490,6 +388,141 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
     <div class="acoes">
       <button class="btn btn-sec" onclick="limparTriagem()">Limpar</button>
       <button class="btn" style="background:#2D5A8C;color:white" onclick="enviarParaDrive('triagem','triagem',this)">📤 Enviar para Drive</button>
+      <button class="btn btn-prim" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>
+    </div>
+  </div>
+</div>
+
+<!-- ENTREVISTA SOCIAL -->
+<div class="page" id="entrevista-social">
+  <div class="content-wrap">
+    <div class="section"><div class="section-header">1. Dados Pessoais</div><div class="section-body">
+      <div class="row c1"><div class="field"><label>Nome Completo</label><input type="text"></div></div>
+      <div class="row c3">
+        <div class="field"><label>Data de Nascimento</label><input type="date"></div>
+        <div class="field"><label>Idade</label><input type="number" min="0" max="120"></div>
+        <div class="field"><label>Estado Civil</label><select><option value="">Selecionar...</option><option>Solteira</option><option>Casada</option><option>Divorciada</option><option>Viúva</option><option>União Estável</option></select></div>
+      </div>
+      <div class="row c2">
+        <div class="field"><label>Endereço</label><input type="text"></div>
+        <div class="field"><label>Bairro</label><input type="text"></div>
+      </div>
+      <div class="row c3">
+        <div class="field"><label>Contato</label><input type="tel" placeholder="(34) 9 0000-0000"></div>
+        <div class="field"><label>É WhatsApp?</label><select><option value="">Selecionar...</option><option>Sim</option><option>Não</option></select></div>
+        <div class="field"><label>CPF</label><input type="text" placeholder="000.000.000-00"></div>
+      </div>
+      <div class="row c1"><div class="field"><label>RG</label><input type="text"></div></div>
+    </div></div>
+
+    <div class="section"><div class="section-header">2. Aspecto de Desenvolvimento</div><div class="section-body">
+      <div class="check-row"><div class="clabel">Escolaridade</div><div class="check-options"><label><input type="checkbox"> Fund. Completo</label><label><input type="checkbox"> Fund. Incompleto</label><label><input type="checkbox"> Médio Completo</label><label><input type="checkbox"> Médio Incompleto</label><label><input type="checkbox"> Superior Completo</label><label><input type="checkbox"> Superior Incompleto</label></div></div>
+      <div class="row c1"><div class="field"><label>Se Superior Completo, qual a formação?</label><input type="text"></div></div>
+    </div></div>
+
+    <div class="section"><div class="section-header">3. Aspecto do Trabalho</div><div class="section-body">
+      <div class="row c2">
+        <div class="field"><label>Profissão / Ocupação</label><input type="text"></div>
+        <div class="field"><label>Trabalho Informal</label><select><option value="">Selecionar...</option><option>Sim</option><option>Não</option></select></div>
+      </div>
+      <div class="row c2">
+        <div class="field"><label>Renda</label><input type="text"></div>
+        <div class="field"><label>Local de Trabalho</label><input type="text"></div>
+      </div>
+      <div class="check-row"><div class="clabel">Vulnerabilidade — Trabalho</div><div class="check-options"><label><input type="checkbox"> Alto</label><label><input type="checkbox"> Médio</label><label><input type="checkbox"> Baixo</label></div></div>
+    </div></div>
+
+    <div class="section"><div class="section-header">4. Estudo Socioeconômico</div><div class="section-body">
+      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead><tr style="background:var(--roxo-claro)"><th style="padding:8px 10px;text-align:left;border:1px solid var(--borda);color:var(--roxo);font-size:11px">Nome</th><th style="padding:8px 10px;text-align:left;border:1px solid var(--borda);color:var(--roxo);font-size:11px">Idade</th><th style="padding:8px 10px;text-align:left;border:1px solid var(--borda);color:var(--roxo);font-size:11px">Renda</th><th style="padding:8px 10px;text-align:left;border:1px solid var(--borda);color:var(--roxo);font-size:11px">Descontos</th><th style="padding:8px 10px;text-align:left;border:1px solid var(--borda);color:var(--roxo);font-size:11px">Parentesco</th></tr></thead>
+        <tbody>
+          <tr><td style="border:1px solid var(--borda)"><input type="text" style="width:100%;border:none;background:transparent;padding:6px 8px"></td><td style="border:1px solid var(--borda)"><input type="number" style="width:50px;border:none;background:transparent;padding:6px 8px"></td><td style="border:1px solid var(--borda)"><input type="text" style="width:100%;border:none;background:transparent;padding:6px 8px"></td><td style="border:1px solid var(--borda)"><input type="text" style="width:100%;border:none;background:transparent;padding:6px 8px"></td><td style="border:1px solid var(--borda)"><input type="text" style="width:100%;border:none;background:transparent;padding:6px 8px"></td></tr>
+          <tr><td style="border:1px solid var(--borda)"><input type="text" style="width:100%;border:none;background:transparent;padding:6px 8px"></td><td style="border:1px solid var(--borda)"><input type="number" style="width:50px;border:none;background:transparent;padding:6px 8px"></td><td style="border:1px solid var(--borda)"><input type="text" style="width:100%;border:none;background:transparent;padding:6px 8px"></td><td style="border:1px solid var(--borda)"><input type="text" style="width:100%;border:none;background:transparent;padding:6px 8px"></td><td style="border:1px solid var(--borda)"><input type="text" style="width:100%;border:none;background:transparent;padding:6px 8px"></td></tr>
+          <tr><td style="border:1px solid var(--borda)"><input type="text" style="width:100%;border:none;background:transparent;padding:6px 8px"></td><td style="border:1px solid var(--borda)"><input type="number" style="width:50px;border:none;background:transparent;padding:6px 8px"></td><td style="border:1px solid var(--borda)"><input type="text" style="width:100%;border:none;background:transparent;padding:6px 8px"></td><td style="border:1px solid var(--borda)"><input type="text" style="width:100%;border:none;background:transparent;padding:6px 8px"></td><td style="border:1px solid var(--borda)"><input type="text" style="width:100%;border:none;background:transparent;padding:6px 8px"></td></tr>
+          <tr><td style="border:1px solid var(--borda)"><input type="text" style="width:100%;border:none;background:transparent;padding:6px 8px"></td><td style="border:1px solid var(--borda)"><input type="number" style="width:50px;border:none;background:transparent;padding:6px 8px"></td><td style="border:1px solid var(--borda)"><input type="text" style="width:100%;border:none;background:transparent;padding:6px 8px"></td><td style="border:1px solid var(--borda)"><input type="text" style="width:100%;border:none;background:transparent;padding:6px 8px"></td><td style="border:1px solid var(--borda)"><input type="text" style="width:100%;border:none;background:transparent;padding:6px 8px"></td></tr>
+          <tr><td style="border:1px solid var(--borda)"><input type="text" style="width:100%;border:none;background:transparent;padding:6px 8px"></td><td style="border:1px solid var(--borda)"><input type="number" style="width:50px;border:none;background:transparent;padding:6px 8px"></td><td style="border:1px solid var(--borda)"><input type="text" style="width:100%;border:none;background:transparent;padding:6px 8px"></td><td style="border:1px solid var(--borda)"><input type="text" style="width:100%;border:none;background:transparent;padding:6px 8px"></td><td style="border:1px solid var(--borda)"><input type="text" style="width:100%;border:none;background:transparent;padding:6px 8px"></td></tr>
+        </tbody>
+      </table></div>
+      <div style="margin-top:14px;background:var(--roxo-claro);border-radius:8px;padding:14px 16px;border:1px solid var(--roxo-borda)">
+        <div class="row c2">
+          <div class="field"><label>Renda Total</label><input type="text" placeholder="R$"></div>
+          <div class="field"><label>Renda Per Capita</label><input type="text" placeholder="R$"></div>
+        </div>
+        <div class="check-row" style="margin-top:8px"><div class="clabel">Vulnerabilidade — Socioeconômico</div><div class="check-options"><label><input type="checkbox"> Alto</label><label><input type="checkbox"> Médio</label><label><input type="checkbox"> Baixo</label></div></div>
+      </div>
+    </div></div>
+
+    <div class="section"><div class="section-header">5. Aspecto Habitacional</div><div class="section-body">
+      <div class="check-row"><div class="clabel">Tipo de Moradia</div><div class="check-options"><label><input type="checkbox"> Própria</label><label><input type="checkbox"> Alugada</label><label><input type="checkbox"> Cedida</label><label><input type="checkbox"> Assentamento</label></div></div>
+      <div class="row c2">
+        <div class="field"><label>Pessoas no local</label><input type="number" min="0"></div>
+        <div class="field"><label>Nº de cômodos</label><input type="number" min="0"></div>
+      </div>
+      <div class="check-row"><div class="clabel">Infraestrutura</div><div class="check-options"><label><input type="checkbox"> Água tratada</label><label><input type="checkbox"> Esgoto</label><label><input type="checkbox"> Energia elétrica</label><label><input type="checkbox"> Inscrição casa própria</label></div></div>
+      <div class="row c1"><div class="field"><label>Tempo de moradia</label><input type="text"></div></div>
+      <div class="check-row"><div class="clabel">Vulnerabilidade — Habitacional</div><div class="check-options"><label><input type="checkbox"> Alto</label><label><input type="checkbox"> Médio</label><label><input type="checkbox"> Baixo</label></div></div>
+    </div></div>
+
+    <div class="section"><div class="section-header">6. Benefícios Assistenciais e/ou Previdenciários</div><div class="section-body">
+      <div class="check-row"><div class="check-options"><label><input type="checkbox"> Bolsa Família</label><label><input type="checkbox"> BPC/Loas</label><label><input type="checkbox"> Aposentadoria/Pensão</label><label><input type="checkbox"> Pensão Alimentícia</label><label><input type="checkbox"> Auxílio Doença</label><label><input type="checkbox"> Auxílio Reclusão</label><label><input type="checkbox"> Cartão gratuidade – Setran</label><label><input type="checkbox"> Cartão interestadual</label><label><input type="checkbox"> Cartão intermunicipal</label><label><input type="checkbox"> Cartão gratuito para Idoso</label><label><input type="checkbox"> Cartão gratuito para PcD</label></div></div>
+    </div></div>
+
+    <div class="section"><div class="section-header">7. Aspecto Saúde</div><div class="section-body">
+      <div class="row c1"><div class="field"><label>Realiza algum tratamento de saúde?</label><input type="text" placeholder="Não / Sim, qual?"></div></div>
+      <div class="row c1"><div class="field"><label>Possui convênio médico?</label><input type="text" placeholder="Não / Sim, qual?"></div></div>
+      <div class="row c1"><div class="field"><label>Possui mobilidade reduzida?</label><input type="text" placeholder="Não / Sim, qual?"></div></div>
+      <div class="row c1"><div class="field"><label>Algum componente da família possui deficiência?</label><input type="text" placeholder="Não / Sim, qual?"></div></div>
+      <div class="check-row"><div class="clabel">Vulnerabilidade — Saúde</div><div class="check-options"><label><input type="checkbox"> Alto</label><label><input type="checkbox"> Médio</label><label><input type="checkbox"> Baixo</label></div></div>
+    </div></div>
+
+    <div class="section"><div class="section-header">8. Aspecto Cuidador e Vínculos Afetivos</div><div class="section-body">
+      <div class="row c2">
+        <div class="field"><label>Necessita de cuidador?</label><select><option value="">Selecionar...</option><option>Não</option><option>Sim</option></select></div>
+        <div class="field"><label>O cuidador tem prática com esses cuidados?</label><select><option value="">Selecionar...</option><option>Não</option><option>Sim</option></select></div>
+      </div>
+      <div class="row c2">
+        <div class="field"><label>Pessoa responsável pelo cuidado</label><input type="text"></div>
+        <div class="field"><label>Grau de Parentesco</label><input type="text"></div>
+      </div>
+      <div class="row c1"><div class="field"><label>Possui suporte afetivo?</label><input type="text" placeholder="Não / Sim, quem?"></div></div>
+      <div class="row c1"><div class="field"><label>Possui vínculos familiares rompidos?</label><input type="text" placeholder="Não / Sim, qual?"></div></div>
+      <div class="row c1"><div class="field"><label>Possui rede de apoio?</label><input type="text" placeholder="Não / Sim, quem?"></div></div>
+      <div class="check-row"><div class="clabel">Vulnerabilidade — Cuidador</div><div class="check-options"><label><input type="checkbox"> Alto</label><label><input type="checkbox"> Médio</label><label><input type="checkbox"> Baixo</label></div></div>
+    </div></div>
+
+    <div class="section"><div class="section-header">9. Transporte</div><div class="section-body">
+      <div class="check-row"><div class="clabel">Possui meio de transporte próprio?</div><div class="check-options"><label><input type="checkbox"> Sim</label><label><input type="checkbox"> Não</label></div></div>
+    </div></div>
+
+    <div class="section"><div class="section-header">Fatores de Alta Vulnerabilidade Social Identificados</div><div class="section-body">
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead><tr style="background:var(--roxo-claro)"><th style="padding:8px 12px;text-align:left;border:1px solid var(--borda);color:var(--roxo);font-size:11px">Fator</th><th style="padding:8px 12px;text-align:center;border:1px solid var(--borda);color:var(--roxo);font-size:11px;width:80px">Marcar</th></tr></thead>
+        <tbody id="vuln-tbody">
+          <tr><td style="padding:8px 12px;border:1px solid var(--borda)">Educação/Desenvolvimento</td><td style="padding:8px 12px;border:1px solid var(--borda);text-align:center"><input type="checkbox" class="vuln-cb" style="width:16px;height:16px;accent-color:var(--roxo)"></td></tr>
+          <tr><td style="padding:8px 12px;border:1px solid var(--borda)">Habitação</td><td style="padding:8px 12px;border:1px solid var(--borda);text-align:center"><input type="checkbox" class="vuln-cb" style="width:16px;height:16px;accent-color:var(--roxo)"></td></tr>
+          <tr><td style="padding:8px 12px;border:1px solid var(--borda)">Saúde</td><td style="padding:8px 12px;border:1px solid var(--borda);text-align:center"><input type="checkbox" class="vuln-cb" style="width:16px;height:16px;accent-color:var(--roxo)"></td></tr>
+          <tr><td style="padding:8px 12px;border:1px solid var(--borda)">Alimentação</td><td style="padding:8px 12px;border:1px solid var(--borda);text-align:center"><input type="checkbox" class="vuln-cb" style="width:16px;height:16px;accent-color:var(--roxo)"></td></tr>
+          <tr><td style="padding:8px 12px;border:1px solid var(--borda)">Violência</td><td style="padding:8px 12px;border:1px solid var(--borda);text-align:center"><input type="checkbox" class="vuln-cb" style="width:16px;height:16px;accent-color:var(--roxo)"></td></tr>
+          <tr><td style="padding:8px 12px;border:1px solid var(--borda)">Cuidados Pessoais</td><td style="padding:8px 12px;border:1px solid var(--borda);text-align:center"><input type="checkbox" class="vuln-cb" style="width:16px;height:16px;accent-color:var(--roxo)"></td></tr>
+          <tr><td style="padding:8px 12px;border:1px solid var(--borda)">Transporte</td><td style="padding:8px 12px;border:1px solid var(--borda);text-align:center"><input type="checkbox" class="vuln-cb" style="width:16px;height:16px;accent-color:var(--roxo)"></td></tr>
+          <tr><td style="padding:8px 12px;border:1px solid var(--borda)">Socioeconômico</td><td style="padding:8px 12px;border:1px solid var(--borda);text-align:center"><input type="checkbox" class="vuln-cb" style="width:16px;height:16px;accent-color:var(--roxo)"></td></tr>
+          <tr><td style="padding:8px 12px;border:1px solid var(--borda)">Laços/Vínculos</td><td style="padding:8px 12px;border:1px solid var(--borda);text-align:center"><input type="checkbox" class="vuln-cb" style="width:16px;height:16px;accent-color:var(--roxo)"></td></tr>
+          <tr style="background:var(--roxo-claro)"><td style="padding:8px 12px;border:1px solid var(--borda);font-weight:700;color:var(--roxo)">Total</td><td style="padding:8px 12px;border:1px solid var(--borda);text-align:center"><input type="number" id="total-vuln" style="width:50px;text-align:center;border:1px solid var(--borda);border-radius:4px;padding:4px;font-family:Inter,sans-serif;font-size:13px" readonly></td></tr>
+        </tbody>
+      </table>
+    </div></div>
+
+    <div class="section"><div class="section-header">Intervenções Profissionais</div><div class="section-body">
+      <div class="field"><label>Orientações, encaminhamentos, articulações</label><textarea rows="5"></textarea></div>
+    </div></div>
+
+    <div class="assinatura-row">
+      <div style="flex:1"><div class="field"><label>Data da Avaliação</label><input type="date" id="data-es" style="max-width:200px"></div></div>
+      <div class="ass-linha">Assinatura e Carimbo — Serviço Social</div>
+    </div>
+    <div class="acoes">
+      <button class="btn btn-sec" onclick="limparES()">Limpar</button>
+      <button class="btn" style="background:#2D5A8C;color:white" onclick="enviarParaDrive('entrevista_social','entrevista-social',this)">📤 Enviar para Drive</button>
       <button class="btn btn-prim" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>
     </div>
   </div>
@@ -1353,82 +1386,6 @@ function enviarLista(btnEl){
     document.getElementById('ac-idade').value = '';
   }
 
-
-// ── FLUXO OPERACIONAL DE PACIENTES ──
-let fluxoPacientes = JSON.parse(localStorage.getItem('mt_fluxo_pacientes') || '[]');
-if (!fluxoPacientes.some(p => (p.nome || '').trim().toLowerCase() === 'keila regina')) {
-  fluxoPacientes.unshift({
-    id: 170920260001,
-    nome: 'Keila Regina',
-    telefone: '',
-    origem: '',
-    status: 'Aguardando encaminhamento',
-    psicologa: '',
-    obs: 'Triagem Social realizada por Érica. Apta para prosseguir para a etapa psicológica.',
-    atualizadoEm: new Date().toISOString()
-  });
-  localStorage.setItem('mt_fluxo_pacientes', JSON.stringify(fluxoPacientes));
-}
-
-function salvarFluxoPaciente(){
-  const nome = document.getElementById('fp-nome').value.trim();
-  if(!nome){ alert('Informe o nome da paciente.'); return; }
-  const item = {
-    id: Date.now(),
-    nome,
-    telefone: document.getElementById('fp-telefone').value.trim(),
-    origem: document.getElementById('fp-origem').value,
-    status: document.getElementById('fp-status').value,
-    psicologa: document.getElementById('fp-psicologa').value,
-    obs: document.getElementById('fp-obs').value.trim(),
-    atualizadoEm: new Date().toISOString()
-  };
-  fluxoPacientes.unshift(item);
-  localStorage.setItem('mt_fluxo_pacientes', JSON.stringify(fluxoPacientes));
-  ['fp-nome','fp-telefone','fp-obs'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('fp-origem').value='';
-  document.getElementById('fp-status').value='Aguardando Camila';
-  document.getElementById('fp-psicologa').value='';
-  renderFluxoPacientes();
-}
-
-function atualizarFluxoPaciente(id, campo, valor){
-  const p = fluxoPacientes.find(x=>x.id===id);
-  if(!p) return;
-  p[campo]=valor; p.atualizadoEm=new Date().toISOString();
-  localStorage.setItem('mt_fluxo_pacientes', JSON.stringify(fluxoPacientes));
-  renderFluxoPacientes();
-}
-
-function excluirFluxoPaciente(id){
-  if(!confirm('Excluir esta paciente do fluxo?')) return;
-  fluxoPacientes = fluxoPacientes.filter(x=>x.id!==id);
-  localStorage.setItem('mt_fluxo_pacientes', JSON.stringify(fluxoPacientes));
-  renderFluxoPacientes();
-}
-
-function renderFluxoPacientes(){
-  const box=document.getElementById('fp-lista'); if(!box) return;
-  const filtro=document.getElementById('fp-filtro')?.value || '';
-  const busca=(document.getElementById('fp-busca')?.value || '').toLowerCase();
-  const lista=fluxoPacientes.filter(p=>(!filtro||p.status===filtro)&&(!busca||p.nome.toLowerCase().includes(busca)));
-  if(!lista.length){ box.innerHTML='<p style="color:var(--texto-sec);font-size:13px">Nenhuma paciente encontrada nesta etapa.</p>'; return; }
-  const status=['Aguardando Camila','Aguardando Triagem Social','Triagem em andamento','Aguardando encaminhamento','Aguardando Anamnese','Grupo Psicoterapêutico','Atendimento Individual','Encerrada'];
-  const psis=['','Paula','Débora','Sandra','Letícia'];
-  box.innerHTML=lista.map(p=>`
-    <div style="border:1px solid var(--borda);border-radius:10px;padding:14px 16px;margin-bottom:10px;background:white">
-      <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap">
-        <div><strong style="color:var(--roxo)">${p.nome}</strong><div style="font-size:12px;color:var(--texto-sec);margin-top:3px">${p.telefone||'Sem telefone'} · ${p.origem||'Origem não informada'}</div></div>
-        <button class="btn btn-sec" style="padding:5px 9px;font-size:11px" onclick="excluirFluxoPaciente(${p.id})">Excluir</button>
-      </div>
-      <div class="row c2" style="margin-top:12px">
-        <div class="field"><label>Etapa atual</label><select onchange="atualizarFluxoPaciente(${p.id},'status',this.value)">${status.map(s=>`<option ${s===p.status?'selected':''}>${s}</option>`).join('')}</select></div>
-        <div class="field"><label>Psicóloga responsável</label><select onchange="atualizarFluxoPaciente(${p.id},'psicologa',this.value)">${psis.map(s=>`<option value="${s}" ${s===p.psicologa?'selected':''}>${s||'Ainda não definida'}</option>`).join('')}</select></div>
-      </div>
-      ${p.obs?`<div style="font-size:12px;color:var(--texto-sec);margin-top:8px"><strong>Observações:</strong> ${p.obs}</div>`:''}
-    </div>`).join('');
-}
-
 </script>
 
 <div class="page" id="cadastro">
@@ -1478,7 +1435,7 @@ function renderFluxoPacientes(){
 
 
 <!-- DASHBOARD -->
-<div class="page" id="dashboard">
+<div class="page active" id="dashboard">
   <div class="content-wrap">
     <div style="font-family:Playfair Display,serif;font-size:20px;color:var(--roxo);text-align:center;margin-bottom:28px;padding-bottom:12px;border-bottom:2px solid var(--roxo-claro)">
       Dashboard — Mentes Transformadas
