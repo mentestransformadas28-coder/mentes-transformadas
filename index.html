@@ -78,6 +78,18 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
 
 /* V7.1 */ .equipe-topo{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:22px}.equipe-topo h2{margin:0 0 5px;color:#29321d;font-family:Georgia,serif}.equipe-topo p{margin:0;color:#6b665a;font-size:13px}.equipe-comunicacao{max-width:390px;background:#ebe7d9;border:1px solid #d7cfb8;border-left:4px solid #69734a;border-radius:10px;padding:11px 14px;color:#343927;font-size:12px}.equipe-comunicacao strong,.equipe-comunicacao span{display:block}.equipe-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.equipe-card{background:#fdfcf8;border:1px solid #d9d4c5;border-radius:15px;overflow:hidden;box-shadow:0 3px 12px rgba(42,49,31,.08)}.equipe-foto{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}.equipe-info{padding:13px 14px 15px;border-top:4px solid #69734a}.equipe-info h3{margin:0;color:#28311e;font-family:Georgia,serif;font-size:20px}.equipe-funcao{margin-top:4px;color:#7a342f;text-transform:uppercase;letter-spacing:.08em;font-size:10px;font-weight:700}.v71-etapas{display:grid;gap:10px;max-width:760px;margin:18px auto}.v71-etapa{background:#fff;border:1px solid #d9d4c5;border-left:5px solid #69734a;border-radius:12px;padding:14px 18px}.v71-etapa strong{color:#29321d}.v71-arrow{text-align:center;color:#69734a;font-size:20px}.v71-status{display:inline-block;padding:4px 9px;border-radius:999px;background:#ebe7d9;color:#495134;font-size:11px;font-weight:700}.v71-paciente{padding:13px 14px;border:1px solid #d9d4c5;border-radius:10px;background:#fff;display:flex;justify-content:space-between;gap:12px;align-items:center}.v71-arquivo{margin:22px 0;background:#f7f4eb;border:1px solid #d9d4c5;border-radius:12px;padding:16px}.v71-arquivo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}.v71-arquivo-item{background:#fff;border:1px solid #ded8c8;border-radius:9px;padding:12px}.v71-arquivo-item small{display:block;color:#746f62;margin-top:3px}@media(max-width:900px){.equipe-grid{grid-template-columns:repeat(2,1fr)}.equipe-topo{flex-direction:column}.v71-arquivo-grid{grid-template-columns:1fr}}@media(max-width:520px){.equipe-grid{grid-template-columns:1fr}}
 </style>
+
+<style id="v8-workflow-css">
+.v8-paciente{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 16px;border:1px solid #ddd7c8;border-radius:10px;background:#fff;cursor:pointer;transition:.18s}
+.v8-paciente:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(44,48,32,.10);border-color:#9c987b}
+.v8-status{display:inline-block;padding:5px 9px;border-radius:999px;background:#ece8d8;color:#3e432c;font-size:11px;font-weight:700}
+.v8-modal{display:none;position:fixed;inset:0;background:rgba(36,40,27,.78);z-index:10020;align-items:center;justify-content:center;padding:20px}.v8-modal.open{display:flex}
+.v8-modal-card{background:#faf8f1;width:min(680px,96vw);max-height:88vh;overflow:auto;border-radius:16px;box-shadow:0 18px 50px rgba(0,0,0,.3)}
+.v8-modal-head{background:#2c3020;color:white;padding:18px 22px;display:flex;justify-content:space-between;align-items:center}.v8-modal-body{padding:22px}
+.v8-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}.v8-action{border:0;border-radius:8px;padding:10px 14px;font-weight:700;cursor:pointer;background:#353b27;color:white}.v8-action.sec{background:#e8e3d3;color:#353b27;border:1px solid #cfc8b4}
+.v8-field{margin:12px 0}.v8-field label{display:block;font-size:11px;font-weight:800;text-transform:uppercase;margin-bottom:5px;color:#555743}.v8-field select,.v8-field textarea{width:100%;padding:10px;border:1px solid #cbc5b3;border-radius:8px;background:white}
+.v71-arquivo-item{cursor:pointer;transition:.18s}.v71-arquivo-item:hover{transform:translateY(-1px);box-shadow:0 3px 12px rgba(44,48,32,.12);border-color:#9c987b}.v71-arquivo-item small:after{content:' · Abrir arquivo';font-weight:700;color:#4d5537}
+</style>
 </head>
 <body>
 <div id="login-screen">
@@ -124,7 +136,7 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
 
 <!-- FLUXO ACOLHIMENTO -->
 
-<div class="page" id="pacientes-central"><div class="content-wrap"><div class="section"><div class="section-header">Central de Pacientes</div><div class="section-body"><p style="color:var(--texto-sec);font-size:13px">Pacientes carregadas da planilha já vinculada. Nenhum registro é criado ou apagado nesta tela.</p><div style="display:flex;gap:7px;flex-wrap:wrap;margin:12px 0 16px"><span class="v71-status">Aguardando contato</span><span class="v71-status">Triagem Social</span><span class="v71-status">Aguardando encaminhamento</span><span class="v71-status">Aguardando Anamnese</span><span class="v71-status">Grupo</span><span class="v71-status">Individual</span><span class="v71-status">Encerradas</span></div><div id="v7-pacientes-lista">Carregando...</div><p style="font-size:11px;color:var(--texto-sec);margin-top:12px">Keila e Jessica só são marcadas como “Aguardando encaminhamento” se já existirem na base carregada. Nenhum registro duplicado é criado.</p></div></div></div></div>
+<div class="page" id="pacientes-central"><div class="content-wrap"><div class="section"><div class="section-header">Central de Pacientes</div><div class="section-body"><p style="color:var(--texto-sec);font-size:13px">Clique em uma paciente para abrir a ficha operacional, consultar a etapa atual e realizar o próximo encaminhamento.</p><div style="display:flex;gap:7px;flex-wrap:wrap;margin:12px 0 16px"><span class="v71-status">Aguardando contato</span><span class="v71-status">Triagem Social</span><span class="v71-status">Aguardando encaminhamento</span><span class="v71-status">Aguardando Anamnese</span><span class="v71-status">Grupo</span><span class="v71-status">Individual</span><span class="v71-status">Encerrada</span></div><div id="v7-pacientes-lista">Carregando...</div></div></div></div></div>
 <div class="page" id="fluxos-central"><div class="content-wrap"><div class="section"><div class="section-header">Fluxo das Pacientes</div><div class="section-body"><p style="color:var(--texto-sec);font-size:13px">Fluxo operacional atual por funções, sem nomes pessoais.</p><div class="v71-etapas"><div class="v71-etapa"><strong>1. Entrada da demanda</strong><br>Demanda recebida e direcionada à Secretaria.</div><div class="v71-arrow">▼</div><div class="v71-etapa"><strong>2. Primeiro contato — Secretaria</strong><br>Explicação do serviço e confirmação de interesse em prosseguir.</div><div class="v71-arrow">▼</div><div class="v71-etapa"><strong>3. Triagem Social — Assistente Social</strong><br>Triagem online e/ou presencial. Registra se a paciente pode e deseja continuar.</div><div class="v71-arrow">▼</div><div class="v71-etapa"><strong>4. Aguardando encaminhamento — Secretaria</strong><br>Paciente que concluiu a Triagem Social aguarda indicação de psicóloga.</div><div class="v71-arrow">▼</div><div class="v71-etapa"><strong>5. Aguardando Anamnese — Psicóloga</strong><br>A psicóloga responsável realiza a Anamnese.</div><div class="v71-arrow">▼</div><div class="v71-etapa"><strong>6. Definição após Anamnese</strong><br>Grupo Psicoterapêutico ou Atendimento Individual.</div><div class="v71-arrow">▼</div><div class="v71-etapa"><strong>7. Em atendimento</strong><br>Acompanhamento na modalidade definida.</div><div class="v71-arrow">▼</div><div class="v71-etapa"><strong>8. Encerramento / Histórico</strong><br>Alta, conclusão, desistência ou outro encerramento, sem excluir o registro.</div></div><div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px"><button class="btn btn-sec" onclick="showTabV7('fluxo-acolhimento')">Consultar fluxo antigo de acolhimento</button><button class="btn btn-sec" onclick="showTabV7('fluxo-grupo')">Consultar fluxo do grupo</button></div></div></div></div></div>
 <div class="page" id="equipe-central">
   <div class="content-wrap">
@@ -247,23 +259,16 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
 
 <!-- TERMO DE COMPROMISSO -->
 <div class="page" id="termo">
-  <div class="content-wrap">
-    <div class="termo-body">
-      <h2>Termo de Ciência e Compromisso</h2>
-      <div class="subtitle">Psicoterapia Individual</div>
-      <p>Cada atendimento clínico terá a duração de até 1H30, sendo realizado em horário combinado, na Igreja Batista Imagine de Uberlândia, localizada na Av. Rui de Castro Santos, 1991 – Grand Ville, estando a Psicóloga à disposição do participante naquele período. Não será possível estender o horário para além do previsto, mesmo em caso de atraso do participante. Os encontros acontecerão às segundas-feiras ou às quintas-feiras, com início às 20h e término às 21h30, de forma presencial na Igreja Batista Imagine ou online enquanto não houver sala disponível.</p>
-      <p>O atendimento psicoterápico será em grupo aberto. O participante realizará uma Entrevista Clínica com o psicólogo; verificando-se a necessidade de um tratamento individual, deverá ser feito um contrato direto com o psicólogo.</p>
-      <p>O Psicólogo respeitará o sigilo profissional a fim de proteger, por meio da confiabilidade, a intimidade das pessoas, grupos ou organizações a que tenha acesso no exercício profissional (Código de Ética do Psicólogo, Artigo 9º). O participante se compromete a não usar as informações confidenciais a que tiver acesso, não compartilhar as histórias do grupo com terceiros e não efetuar nenhum tipo de gravação durante os encontros.</p>
-      <p>O grupo psicoterapêutico não possui valor de custo mensal. Se o participante for aderir à psicoterapia individual, terá o custo de um valor social de R$ 340,00 (Trezentos e Quarenta Reais), correspondendo a 4 sessões de psicoterapia. O pagamento será feito sempre via PIX ou em dinheiro na primeira sessão. Qualquer alteração no contrato ou reajuste somente poderá acontecer com o conhecimento e acordo entre as partes. São permitidas apenas duas faltas justificadas durante o tratamento; em caso de mais de duas faltas injustificadas, o atendimento será considerado interrompido e o participante perderá sua vaga no grupo.</p>
-      <p><strong>Declaro estar ciente das afirmações acima.</strong></p>
-      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-top:32px">
-        <div style="flex:1"><div class="field"><label>Data</label><input type="date" id="data-termo" style="max-width:200px"></div></div>
-        <div style="flex:1;text-align:center;border-top:1.5px solid var(--roxo);padding-top:8px;margin-top:40px;font-size:12px;color:var(--texto-sec)">Assinatura do Participante</div>
-      </div>
-    </div>
-    <div class="acoes"><button class="btn" style="background:#2D5A8C;color:white" onclick="enviarTermo(this)">📤 Salvar no Drive</button><button class="btn btn-prim" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button></div>
-  </div>
-</div>
+  <div class="content-wrap"><div class="termo-body"><h2>Termo de Ciência e Compromisso</h2><div class="subtitle">Grupo Psicoterapêutico e Atendimento Individual</div>
+  <p>Este termo apresenta as condições gerais de participação nas modalidades oferecidas pelo Mentes Transformadas. A indicação da modalidade acontece após a Anamnese, conforme avaliação da psicóloga responsável.</p>
+  <p><strong>Grupo Psicoterapêutico:</strong> inscrição no valor de R$ 60,00. Os encontros do grupo seguem a organização definida pelo projeto, com compromisso de frequência, respeito às demais participantes e preservação do sigilo sobre relatos compartilhados no grupo.</p>
+  <p><strong>Atendimento Individual:</strong> pacote de 4 atendimentos no valor total de R$ 360,00, correspondendo a R$ 90,00 por atendimento. O acompanhamento individual é realizado mediante encaminhamento após a Anamnese e organização com a psicóloga responsável.</p>
+  <p>As profissionais respeitarão o sigilo profissional nos termos do Código de Ética Profissional do Psicólogo. Nas atividades em grupo, cada participante também se compromete a preservar a confidencialidade das demais participantes e a não realizar gravações ou divulgar relatos do encontro.</p>
+  <p>Horários, modalidade presencial e/ou online, faltas, reagendamentos e demais condições específicas serão informados de acordo com o serviço indicado e a organização vigente do projeto.</p>
+  <p><strong>Declaro estar ciente das condições acima.</strong></p>
+  <div class="row c2" style="margin-top:24px"><div class="field"><label>Nome da participante</label><input type="text"></div><div class="field"><label>Data</label><input type="date" id="data-termo"></div></div>
+  <div class="field"><label>Modalidade indicada</label><select><option value="">Selecionar...</option><option>Grupo Psicoterapêutico</option><option>Atendimento Individual</option></select></div>
+  </div><div class="acoes"><button class="btn" style="background:#2D5A8C;color:white" onclick="enviarTermo(this)">📤 Salvar no Drive</button><button class="btn btn-prim" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button></div></div></div>
 
 <!-- ANAMNESE -->
 <div class="page" id="anamnese">
@@ -385,7 +390,7 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
         <div class="field"><label>É WhatsApp?</label><select><option value="">Selecionar...</option><option>Sim</option><option>Não</option></select></div>
         <div class="field"><label>CPF</label><input type="text" placeholder="000.000.000-00"></div>
       </div>
-      <div class="row c1"><div class="field"><label>RG</label><input type="text"></div></div>
+      <div class="row c2"><div class="field"><label>RG</label><input type="text"></div><div class="field"><label>E-mail</label><input type="email"></div></div>
     </div></div>
 
     <div class="section"><div class="section-header">2. Aspecto de Desenvolvimento</div><div class="section-body">
@@ -424,7 +429,7 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
       <div class="row c1"><div class="field"><label>Possui mobilidade reduzida?</label><input type="text" placeholder="Não / Sim, qual?"></div></div>
       <div class="row c1"><div class="field"><label>Faz tratamento em rede Saúde Mental?</label><input type="text" placeholder="Não / Sim, onde?"></div></div>
       <div class="row c1"><div class="field"><label>Faz uso de medicação de uso contínuo?</label><input type="text" placeholder="Não / Sim, qual?"></div></div>
-      <div class="row c1"><div class="field"><label>Realizou acompanhamento psiquiátrico?</label><input type="text" placeholder="Não / Sim, onde?"></div></div>
+      <div class="row c1"><div class="field"><label>Realiza acompanhamento psiquiátrico?</label><input type="text" placeholder="Não / Sim, onde?"></div></div>
       <div class="row c1"><div class="field"><label>Realiza acompanhamento psicológico?</label><input type="text" placeholder="Não / Sim, onde?"></div></div>
       <div class="row c1"><div class="field"><label>Possui suporte afetivo?</label><input type="text" placeholder="Não / Sim, quem?"></div></div>
       <div class="row c1"><div class="field"><label>Possui rede de apoio?</label><input type="text" placeholder="Não / Sim, quem?"></div></div>
@@ -458,22 +463,15 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
           <div class="field"><label>Renda total – Despesas (B+C)</label><input type="text" placeholder="R$"></div>
         </div>
         <div class="row c1"><div class="field"><label>Renda per capita (÷ nº de pessoas)</label><input type="text" placeholder="R$"></div></div>
-        <div class="check-row" style="margin-top:8px"><div class="clabel">Renda per capita de até 1 salário mínimo (R$ 1.412,00)?</div><div class="check-options"><label><input type="checkbox"> Sim</label><label><input type="checkbox"> Não</label></div></div>
+        <div class="check-row" style="margin-top:8px"><div class="clabel">Renda per capita de até 1 salário mínimo?</div><div class="check-options"><label><input type="checkbox"> Sim</label><label><input type="checkbox"> Não</label></div></div>
       </div>
     </div></div>
 
     <div class="section"><div class="section-header">9. Queixa Principal</div><div class="section-body"><div class="field"><textarea rows="4"></textarea></div></div></div>
     <div class="section"><div class="section-header">10. Informado da Taxa</div><div class="section-body"><div class="field"><textarea rows="3"></textarea></div></div></div>
-    <div class="section"><div class="section-header">11. Critério de Desconto</div><div class="section-body">
-      <div style="font-size:12px;color:var(--texto-sec);margin-bottom:10px;line-height:1.5">Critério: renda de até 01 salário mínimo por pessoa, considerando totais de renda menos despesas.</div>
-      <div class="check-row"><div class="clabel">Usuária(o) enquadra no critério de desconto?</div><div class="check-options"><label><input type="checkbox"> Sim</label><label><input type="checkbox"> Não</label></div></div>
-      <div class="field"><label>Observações</label><textarea rows="2"></textarea></div>
+<div class="field"><label>Observações</label><textarea rows="2"></textarea></div>
     </div></div>
-
-    <div class="assinatura-row">
-      <div style="flex:1"><div class="field"><label>Data</label><input type="date" id="data-triagem" style="max-width:200px"></div></div>
-      <div class="ass-linha">Profissional responsável pela triagem</div>
-    </div>
+    <div class="section"><div class="section-header">11. Continuidade após a Triagem Social</div><div class="section-body"><div class="row c2"><div class="field"><label>Continuidade após triagem</label><select id="triagem-continuidade"><option value="">Selecionar...</option><option value="Pode prosseguir">Pode prosseguir</option><option value="Não quis prosseguir">Não quis prosseguir</option><option value="Desistiu após triagem">Desistiu após triagem</option><option value="Não foi possível dar continuidade">Não foi possível dar continuidade</option></select></div><div class="field"><label>Data</label><input type="date" id="data-triagem"></div></div><div class="field"><label>Observação sobre a continuidade</label><textarea rows="2"></textarea></div></div></div>
     <div class="acoes">
       <button class="btn btn-sec" onclick="limparTriagem()">Limpar</button>
       <button class="btn" style="background:#2D5A8C;color:white" onclick="enviarParaDrive('triagem','triagem',this)">📤 Enviar para Drive</button>
@@ -804,7 +802,7 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
 
 
 <script>
-const USUARIOS = [{"usuario":"leticia","senha":"Mentes2026","nome":"Leticia Fernanda","registro":"CRP 04/82168","profissao":"Psicóloga","admin":true},{"usuario":"erica","senha":"Imagine2026","nome":"Érica Paula Dorneles","registro":"CRESS 6ª/19627","profissao":"Assistente Social","admin":false},{"usuario":"kellen","senha":"Imagine2026","nome":"Kellen Domingues Braga Pimenta","registro":"CRP 20304/4ª","profissao":"Psicóloga","admin":false},{"usuario":"paula","senha":"Imagine2026","nome":"Paula Gonçalves Silva Honório","registro":"CRP 04/55110","profissao":"Psicóloga","admin":false},{"usuario":"debora","senha":"Imagine2026","nome":"Débora Hellen Rodrigues Silva","registro":"CRP 04/82984","profissao":"Psicóloga","admin":false},{"usuario":"sandra","senha":"Imagine2026","nome":"Sandra Rodovalho","registro":"CRP 04/48003","profissao":"Psicóloga","admin":false},{"usuario":"camila","senha":"Imagine2026","nome":"Camila Alves","registro":"","profissao":"Secretária","admin":false},{"usuario":"eliane","senha":"Imagine2026","nome":"Pastora Eliane","registro":"","profissao":"Líder","admin":false}];
+const USUARIOS = [{"usuario":"leticia","senha":"Mentes2026","nome":"Leticia Fernanda","registro":"CRP 04/82168","profissao":"Psicóloga","admin":true},{"usuario":"erica","senha":"Imagine2026","nome":"Érica Paula Dorneles","registro":"CRESS 6ª/19627","profissao":"Assistente Social","admin":false},{"usuario":"kellen","senha":"Imagine2026","nome":"Kellen Domingues Braga Pimenta","registro":"CRP 20304/4ª","profissao":"Psicóloga","admin":false},{"usuario":"paula","senha":"Imagine2026","nome":"Paula Gonçalves Silva Honório","registro":"CRP 04/55110","profissao":"Psicóloga","admin":false},{"usuario":"debora","senha":"Imagine2026","nome":"Débora Hellen Rodrigues Silva","registro":"CRP 04/82984","profissao":"Psicóloga","admin":false},{"usuario":"sandra","senha":"Imagine2026","nome":"Sandra Rodovalho","registro":"CRP 04/48003","profissao":"Psicóloga","admin":false},{"usuario":"camila","senha":"Imagine2026","nome":"Camila Alves Araújo de Freitas","registro":"","profissao":"Estagiária de Psicologia","admin":false},{"usuario":"eliane","senha":"Imagine2026","nome":"Pastora Eliane","registro":"","profissao":"Pastora","admin":false}];
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzKYGkjhin5IZ3Djcn9fcDMBhDHvy3gDU-uM3wUl6419c36ht_Kq8jVCKlc_BqXT6kVcQ/exec';
   const PLANILHA_PACIENTES_ID = '17E_outSFInRLAOs9darg_LYqihA14JnyXNopDW3nGxs';
 const hoje = new Date().toISOString().split('T')[0];
@@ -850,13 +848,20 @@ function showTabV7(id) {
   window.scrollTo(0,0);
 }
 
-async function carregarPacientesV7() {
-  const box=document.getElementById('v7-pacientes-lista'); if(!box)return; box.innerHTML='Carregando...';
-  try { const resp=await fetch(SCRIPT_URL+'?acao=listarPacientes',{mode:'cors'}); const data=await resp.json(); const lista=Array.isArray(data.pacientes)?data.pacientes:[];
-    if(!lista.length){box.innerHTML='<p style="color:var(--texto-sec)">Nenhuma paciente retornada pela planilha.</p>';return;}
-    box.innerHTML='<div style="display:grid;gap:8px">'+lista.map(p=>{const nome=String(p.nome||'');const chave=nome.toLocaleLowerCase('pt-BR').normalize('NFD').replace(/[\u0300-\u036f]/g,'');const aguardando=chave.includes('keila')||chave.includes('jessica');return '<div class="v71-paciente"><div><strong>'+escaparV7(nome)+'</strong>'+(p.nascimento?'<div style="font-size:12px;color:var(--texto-sec);margin-top:3px">Nascimento: '+escaparV7(p.nascimento)+'</div>':'')+'</div>'+(aguardando?'<span class="v71-status">Aguardando encaminhamento</span>':'<span style="font-size:11px;color:var(--texto-sec)">Etapa ainda não registrada</span>')+'</div>';}).join('')+'</div>';
-  } catch(e){box.innerHTML='<p style="color:#a33">Não foi possível carregar a planilha agora. Os dados existentes não foram alterados.</p>';}
+let pacientesFluxoV8=[]; let pacienteAtualV8=null;
+async function carregarPacientesV7(){
+ const box=document.getElementById('v7-pacientes-lista'); if(!box)return; box.innerHTML='Carregando...';
+ try{const resp=await fetch(SCRIPT_URL+'?acao=listarPacientes',{mode:'cors'}); const data=await resp.json(); pacientesFluxoV8=Array.isArray(data.pacientes)?data.pacientes:[];
+ if(!pacientesFluxoV8.length){box.innerHTML='<p style="color:var(--texto-sec)">Nenhuma paciente retornada pela base.</p>';return;}
+ box.innerHTML='<div style="display:grid;gap:8px">'+pacientesFluxoV8.map((p,i)=>'<div class="v8-paciente" onclick="abrirPacienteV8('+i+')"><div><strong>'+escaparV7(p.nome||'')+'</strong>'+(p.nascimento?'<div style="font-size:12px;color:var(--texto-sec);margin-top:3px">Nascimento: '+escaparV7(p.nascimento)+'</div>':'')+'</div><span class="v8-status">'+escaparV7(p.etapa||'Etapa ainda não registrada')+'</span></div>').join('')+'</div>';
+ }catch(e){box.innerHTML='<p style="color:#a33">Não foi possível carregar a base agora. Nenhum dado foi alterado.</p>';}
 }
+function abrirPacienteV8(i){pacienteAtualV8=pacientesFluxoV8[i]; if(!pacienteAtualV8)return; document.getElementById('v8-pac-nome').textContent=pacienteAtualV8.nome||''; document.getElementById('v8-pac-etapa').textContent=pacienteAtualV8.etapa||'Etapa ainda não registrada'; document.getElementById('v8-pac-resp').textContent=pacienteAtualV8.responsavel||'Não definida'; document.getElementById('v8-psico-box').style.display=(pacienteAtualV8.etapa==='Aguardando encaminhamento')?'block':'none'; document.getElementById('v8-anamnese-box').style.display=(pacienteAtualV8.etapa==='Aguardando Anamnese')?'block':'none'; document.getElementById('v8-modal-paciente').classList.add('open');}
+function fecharPacienteV8(){document.getElementById('v8-modal-paciente').classList.remove('open');}
+async function atualizarFluxoV8(etapa,responsavel,observacao){if(!pacienteAtualV8)return; const payload={tipo:'atualizar_fluxo',paciente:pacienteAtualV8.nome,etapa:etapa,responsavel:responsavel||'',observacao:observacao||'',movidoPor:usuarioLogado?usuarioLogado.nome:''}; try{await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',body:JSON.stringify(payload)}); await new Promise(r=>setTimeout(r,1000)); fecharPacienteV8(); carregarPacientesV7(); alert('Fluxo atualizado. A próxima profissional será avisada quando houver destinatário definido.');}catch(e){alert('Não foi possível atualizar o fluxo: '+e.message);}}
+function encaminharPsicologaV8(){const sel=document.getElementById('v8-psicologa'); if(!sel.value){alert('Selecione a psicóloga responsável.');return;} atualizarFluxoV8('Aguardando Anamnese',sel.value,'Encaminhada pela Secretaria após Triagem Social.');}
+function concluirAnamneseV8(destino){const resp=pacienteAtualV8&&pacienteAtualV8.responsavel?pacienteAtualV8.responsavel:(usuarioLogado?usuarioLogado.nome:''); atualizarFluxoV8(destino,resp,'Modalidade definida após Anamnese.');}
+async function abrirArquivoAntigo(tipo){try{const r=await fetch(SCRIPT_URL+'?acao=arquivoAntigo&tipo='+encodeURIComponent(tipo),{mode:'cors'}); const d=await r.json(); if(d.url)window.open(d.url,'_blank','noopener'); else alert(d.erro||'Arquivo não disponível.');}catch(e){alert('Não foi possível abrir o arquivo antigo.');}}
 function escaparV7(v){ return String(v).replace(/[&<>\"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[m])); }
 setTimeout(()=>{inicializarDashboard();},300);
 
@@ -938,6 +943,7 @@ async function enviarParaDrive(tipo,pageId,btnEl){
   const t=btnEl.textContent;btnEl.textContent='Enviando...';btnEl.disabled=true;
   try{
     await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({tipo,campos})});
+    if(tipo==='triagem'){ const nome=campos['Nome Completo']||campos['Nome']||''; const cont=document.getElementById('triagem-continuidade')?.value||''; if(nome&&cont){ const etapa=cont==='Pode prosseguir'?'Aguardando encaminhamento':'Encerrada'; await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({tipo:'atualizar_fluxo',paciente:nome,etapa:etapa,responsavel:'',observacao:cont,movidoPor:usuarioLogado?usuarioLogado.nome:''})}); }}
     await new Promise(r=>setTimeout(r,1500));
     btnEl.textContent='Enviado!';btnEl.style.background='#2E7D5E';
     setTimeout(()=>{btnEl.textContent=t;btnEl.style.background='#2D5A8C';btnEl.disabled=false;},3000);
@@ -1673,7 +1679,7 @@ function enviarLista(btnEl){
     <!-- Registro de acesso -->
     <div id="historico-acesso-info" style="background:var(--roxo-claro);border:1px solid var(--roxo-borda);border-radius:10px;padding:14px 20px;margin-bottom:20px;font-size:13px;color:var(--roxo)">
     </div>
-    <div class="v71-arquivo"><strong>Arquivo Antigo — preservado</strong><p style="font-size:12px;color:var(--texto-sec);margin:5px 0 0">As fontes históricas permanecem nos locais originais. Esta versão não move, exclui ou migra arquivos.</p><div class="v71-arquivo-grid"><div class="v71-arquivo-item"><strong>Anamnese antiga</strong><small>Fonte histórica mapeada.</small></div><div class="v71-arquivo-item"><strong>Procedimentos</strong><small>Fonte histórica mapeada.</small></div><div class="v71-arquivo-item"><strong>Pautas</strong><small>Fonte histórica mapeada.</small></div><div class="v71-arquivo-item"><strong>Planilhas históricas</strong><small>Fonte histórica mapeada.</small></div></div></div>
+    <div class="v71-arquivo"><strong>Arquivo Antigo — preservado</strong><p style="font-size:12px;color:var(--texto-sec);margin:5px 0 0">As fontes históricas permanecem nos locais originais. Esta versão não move, exclui ou migra arquivos.</p><div class="v71-arquivo-grid"><div class="v71-arquivo-item" onclick="abrirArquivoAntigo('anamnese')" title="Abrir no Drive"><strong>Anamnese antiga</strong><small>Fonte histórica mapeada.</small></div><div class="v71-arquivo-item" onclick="abrirArquivoAntigo('procedimentos')" title="Abrir no Drive"><strong>Procedimentos</strong><small>Fonte histórica mapeada.</small></div><div class="v71-arquivo-item" onclick="abrirArquivoAntigo('pautas')" title="Abrir no Drive"><strong>Pautas</strong><small>Fonte histórica mapeada.</small></div><div class="v71-arquivo-item" onclick="abrirArquivoAntigo('planilhas')" title="Abrir no Drive"><strong>Planilhas históricas</strong><small>Fonte histórica mapeada.</small></div></div></div>
 
     <!-- Formulário de novo registro -->
     <div class="section">
@@ -1715,6 +1721,7 @@ function enviarLista(btnEl){
   </div>
 </div>
 
+<div class="v8-modal" id="v8-modal-paciente" onclick="if(event.target===this)fecharPacienteV8()"><div class="v8-modal-card"><div class="v8-modal-head"><strong id="v8-pac-nome">Paciente</strong><button onclick="fecharPacienteV8()" style="background:none;border:0;color:white;font-size:22px;cursor:pointer">×</button></div><div class="v8-modal-body"><div><b>Etapa atual:</b> <span id="v8-pac-etapa"></span></div><div style="margin-top:6px"><b>Responsável:</b> <span id="v8-pac-resp"></span></div><div id="v8-psico-box" style="display:none;margin-top:18px"><div class="v8-field"><label>Encaminhar para psicóloga</label><select id="v8-psicologa"><option value="">Selecionar...</option><option>Paula Gonçalves Silva Honório</option><option>Débora Hellen Rodrigues Silva</option><option>Letícia Fernanda Silva Moraes</option><option>Sandra Rodovalho</option><option>Kellen Domingues Braga Pimenta</option></select></div><button class="v8-action" onclick="encaminharPsicologaV8()">Confirmar encaminhamento</button></div><div id="v8-anamnese-box" style="display:none;margin-top:18px"><p style="font-size:13px">Após concluir a Anamnese, registre a modalidade indicada:</p><div class="v8-actions"><button class="v8-action" onclick="concluirAnamneseV8('Grupo')">Encaminhar para Grupo</button><button class="v8-action" onclick="concluirAnamneseV8('Individual')">Atendimento Individual</button></div></div><div class="v8-actions"><button class="v8-action sec" onclick="atualizarFluxoV8('Encerrada',pacienteAtualV8.responsavel||'','Encerramento registrado no fluxo.')">Encerrar acompanhamento</button></div></div></div></div>
 <!-- MODAL DE SENHA HISTÓRICO -->
 <div id="modal-historico" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(44,48,32,0.85);z-index:9998;align-items:center;justify-content:center">
   <div style="background:white;border-radius:16px;padding:36px;width:100%;max-width:360px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.3)">
