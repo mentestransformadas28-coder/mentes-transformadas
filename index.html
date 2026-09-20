@@ -78,6 +78,10 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
 
 /* V7.1 */ .equipe-topo{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:22px}.equipe-topo h2{margin:0 0 5px;color:#29321d;font-family:Georgia,serif}.equipe-topo p{margin:0;color:#6b665a;font-size:13px}.equipe-comunicacao{max-width:390px;background:#ebe7d9;border:1px solid #d7cfb8;border-left:4px solid #69734a;border-radius:10px;padding:11px 14px;color:#343927;font-size:12px}.equipe-comunicacao strong,.equipe-comunicacao span{display:block}.equipe-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.equipe-card{background:#fdfcf8;border:1px solid #d9d4c5;border-radius:15px;overflow:hidden;box-shadow:0 3px 12px rgba(42,49,31,.08)}.equipe-foto{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}.equipe-info{padding:13px 14px 15px;border-top:4px solid #69734a}.equipe-info h3{margin:0;color:#28311e;font-family:Georgia,serif;font-size:20px}.equipe-funcao{margin-top:4px;color:#7a342f;text-transform:uppercase;letter-spacing:.08em;font-size:10px;font-weight:700}.v71-etapas{display:grid;gap:10px;max-width:760px;margin:18px auto}.v71-etapa{background:#fff;border:1px solid #d9d4c5;border-left:5px solid #69734a;border-radius:12px;padding:14px 18px}.v71-etapa strong{color:#29321d}.v71-arrow{text-align:center;color:#69734a;font-size:20px}.v71-status{display:inline-block;padding:4px 9px;border-radius:999px;background:#ebe7d9;color:#495134;font-size:11px;font-weight:700}.v71-paciente{padding:13px 14px;border:1px solid #d9d4c5;border-radius:10px;background:#fff;display:flex;justify-content:space-between;gap:12px;align-items:center}.v71-arquivo{margin:22px 0;background:#f7f4eb;border:1px solid #d9d4c5;border-radius:12px;padding:16px}.v71-arquivo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}.v71-arquivo-item{background:#fff;border:1px solid #ded8c8;border-radius:9px;padding:12px}.v71-arquivo-item small{display:block;color:#746f62;margin-top:3px}@media(max-width:900px){.equipe-grid{grid-template-columns:repeat(2,1fr)}.equipe-topo{flex-direction:column}.v71-arquivo-grid{grid-template-columns:1fr}}@media(max-width:520px){.equipe-grid{grid-template-columns:1fr}}
 
+/* V8.2 — Diretrizes e rodapé institucional */
+.mt-footer{margin-top:28px;padding:22px 16px;border-top:1px solid var(--borda);text-align:center;color:var(--texto-sec);font-size:11px;line-height:1.7;background:rgba(255,255,255,.38)}
+.mt-footer strong{color:var(--roxo);font-size:12px}.mt-footer-links{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:6px}.mt-footer-links button{border:0;background:transparent;color:var(--roxo);font:inherit;font-weight:600;cursor:pointer;padding:0}.mt-footer-links button:hover{text-decoration:underline}
+.v82-diretriz-lista{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}.v82-diretriz-item{background:#fff;border:1px solid var(--borda);border-radius:10px;padding:13px}.v82-diretriz-item strong{display:block;color:var(--roxo);font-size:13px;margin-bottom:4px}.v82-diretriz-item span{font-size:11px;color:var(--texto-sec);line-height:1.45}@media(max-width:650px){.v82-diretriz-lista{grid-template-columns:1fr}}
 /* V8.1 — Gestão */
 .v81-gestao-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:8px 0 18px}
 .v81-gestao-card{appearance:none;text-align:left;background:#fff;border:1px solid var(--roxo-borda);border-radius:12px;padding:17px 18px;cursor:pointer;font-family:Inter,sans-serif;transition:transform .15s,border-color .15s,box-shadow .15s}
@@ -157,7 +161,8 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
           <button class="v81-gestao-card" type="button" onclick="abrirGestaoSecao('tarefas')"><strong>Tarefas da Equipe</strong><span>Acompanhar responsabilidades e próximos passos da equipe.</span></button>
           <button class="v81-gestao-card" type="button" onclick="abrirGestaoSecao('pendencias')"><strong>Pendências</strong><span>Acessar pacientes que precisam de continuidade no fluxo.</span></button>
           <button class="v81-gestao-card" type="button" onclick="showTabV7('equipe-central')"><strong>Equipe</strong><span>Integrantes, funções e apresentação da equipe.</span></button>
-          <button class="v81-gestao-card" type="button" onclick="abrirGestaoSecao('documentos')"><strong>Documentos Administrativos</strong><span>Procedimentos, pautas e referências administrativas.</span></button>
+          <button class="v81-gestao-card" type="button" onclick="abrirGestaoSecao('diretrizes')"><strong>Diretrizes e Protocolos</strong><span>Orientações vigentes para funcionamento, fluxo, registros, sigilo e condutas da equipe.</span></button>
+          <button class="v81-gestao-card" type="button" onclick="abrirGestaoSecao('documentos')"><strong>Documentos Administrativos</strong><span>Modelos, referências e documentos administrativos atuais.</span></button>
           <button class="v81-gestao-card" type="button" onclick="abrirGestaoSecao('arquivo')"><strong>Arquivo Antigo</strong><span>Consulta às fontes históricas preservadas, sem mover ou excluir arquivos.</span></button>
         </div>
 
@@ -169,6 +174,18 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
         </div>
         <div id="gestao-pendencias" class="v81-gestao-painel">
           <div class="v81-painel-topo"><div><strong>Pendências</strong><p>Abra a Central de Pacientes para visualizar quem está aguardando contato, encaminhamento ou Anamnese.</p></div><button class="btn btn-prim" type="button" onclick="showTabV7('pacientes-central');carregarPacientesV7()">Abrir Pacientes</button></div>
+        </div>
+        <div id="gestao-diretrizes" class="v81-gestao-painel">
+          <strong>Diretrizes e Protocolos</strong>
+          <p>Área destinada às orientações atuais e vigentes do Mentes Transformadas. Procedimentos históricos permanecem no Arquivo Antigo.</p>
+          <div class="v82-diretriz-lista">
+            <div class="v82-diretriz-item"><strong>Fluxo de atendimento</strong><span>Entrada da demanda, contato, Triagem Social, encaminhamento, Anamnese, Grupo ou Individual e encerramento.</span></div>
+            <div class="v82-diretriz-item"><strong>Atribuições da equipe</strong><span>Responsabilidades operacionais por função e passagem segura entre as etapas.</span></div>
+            <div class="v82-diretriz-item"><strong>Registros e documentação</strong><span>Orientações para preenchimento, atualização e preservação dos registros institucionais.</span></div>
+            <div class="v82-diretriz-item"><strong>Sigilo e confidencialidade</strong><span>Diretrizes internas para acesso e circulação responsável das informações.</span></div>
+            <div class="v82-diretriz-item"><strong>Grupo Psicoterapêutico</strong><span>Organização, presença, registros, entrada, acompanhamento e encerramento no grupo.</span></div>
+            <div class="v82-diretriz-item"><strong>Situações de crise</strong><span>Espaço reservado para o protocolo institucional aprovado pela equipe. Nenhuma conduta clínica foi presumida nesta versão.</span></div>
+          </div>
         </div>
         <div id="gestao-documentos" class="v81-gestao-painel">
           <div class="v81-painel-topo"><div><strong>Documentos Administrativos</strong><p>Os documentos históricos continuam nas pastas originais.</p></div><button class="btn btn-sec" type="button" onclick="abrirArquivoAntigo('procedimentos')">Abrir Procedimentos</button></div>
@@ -1888,5 +1905,14 @@ function abrirGestaoSecao(secao){
   </div>
 </div>
 
+
+<footer class="mt-footer">
+  <div class="mt-footer-links">
+    <button type="button" onclick="showTabV7('gestao-central');setTimeout(function(){abrirGestaoSecao('diretrizes')},0)">Diretrizes e Protocolos</button>
+    <button type="button" onclick="showTabV7('gestao-central')">Gestão</button>
+  </div>
+  <strong>Mentes Transformadas™ • 2026</strong><br>
+  Desenvolvido por Letícia Fernanda
+</footer>
 </body>
 </html>
