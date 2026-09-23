@@ -922,7 +922,7 @@ async function salvarNovaPacienteV88(){
    await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({tipo:'atualizar_fluxo',paciente:nome,etapa:'Aguardando contato',responsavel:'Camila Alves Araujo de Freitas',movidoPor:usuarioLogado?.nome||'Sistema',observacao:'Nova demanda cadastrada; aguardando primeiro contato.'})});
    fecharNovaPacienteV88();
    ['v88-np-nome','v88-np-nasc','v88-np-tel','v88-np-email','v88-np-obs'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
-   await carregarPacientesV84();
+   await carregarPacientesV7();
    alert('Paciente cadastrada. Etapa atual: Aguardando contato.');
  }catch(err){alert('Não foi possível cadastrar a paciente: '+err.message);}
  finally{if(btn){btn.disabled=false;btn.textContent='Salvar paciente';}}
