@@ -144,7 +144,19 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
 
 <div class="page" id="pacientes-central"><div class="content-wrap"><div class="section"><div class="section-header">Central de Pacientes</div><div class="section-body">
 <p style="color:var(--texto-sec);font-size:13px">Pacientes em processo de entrada, encaminhamento, Anamnese, atendimento individual ou encerramento. Integrantes do Grupo ficam somente na área Grupo.</p>
-<div class="v84-toolbar"><input class="v84-search" id="v84-busca" placeholder="Buscar paciente pelo nome..." oninput="renderPacientesV84()"><button class="btn btn-sec" onclick="showTabV7('lista-presenca')">Ir para Grupo</button></div>
+<div class="v84-toolbar"><input class="v84-search" id="v84-busca" placeholder="Buscar paciente pelo nome..." oninput="renderPacientesV84()"><button class="btn btn-prim" onclick="abrirNovaPacienteV88()">+ Nova paciente</button><button class="btn btn-sec" onclick="showTabV7('lista-presenca')">Ir para Grupo</button></div>
+<div id="v88-modal-nova" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9999;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#fff;max-width:620px;width:100%;border-radius:12px;box-shadow:0 18px 50px rgba(0,0,0,.25);overflow:hidden">
+    <div style="background:var(--roxo);color:#fff;padding:14px 18px;font-weight:700;letter-spacing:.04em">Nova paciente</div>
+    <div style="padding:18px">
+      <p style="margin:0 0 14px;color:var(--texto-sec);font-size:13px">Cadastre a nova demanda. Ao salvar, ela entra automaticamente em <b>Aguardando contato</b>, sob responsabilidade da Camila.</p>
+      <div class="row c2"><div class="field"><label>Nome completo *</label><input id="v88-np-nome" type="text"></div><div class="field"><label>Data de nascimento</label><input id="v88-np-nasc" type="date"></div></div>
+      <div class="row c2"><div class="field"><label>Telefone / WhatsApp</label><input id="v88-np-tel" type="tel" placeholder="(34) 9 0000-0000"></div><div class="field"><label>E-mail</label><input id="v88-np-email" type="email"></div></div>
+      <div class="row c1"><div class="field"><label>Observações iniciais</label><textarea id="v88-np-obs" rows="3" placeholder="Opcional"></textarea></div></div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:14px"><button class="btn btn-sec" onclick="fecharNovaPacienteV88()">Cancelar</button><button id="v88-np-salvar" class="btn btn-prim" onclick="salvarNovaPacienteV88()">Salvar paciente</button></div>
+    </div>
+  </div>
+</div>
 <div class="v84-filtros" id="v84-filtros"><button class="v84-filter active" data-filtro="Todos" onclick="filtrarPacientesV84('Todos',this)">Todos</button><button class="v84-filter" data-filtro="Aguardando contato" onclick="filtrarPacientesV84('Aguardando contato',this)">Aguardando contato</button><button class="v84-filter" data-filtro="Triagem Social" onclick="filtrarPacientesV84('Triagem Social',this)">Triagem Social</button><button class="v84-filter" data-filtro="Aguardando encaminhamento" onclick="filtrarPacientesV84('Aguardando encaminhamento',this)">Aguardando encaminhamento</button><button class="v84-filter" data-filtro="Aguardando Anamnese" onclick="filtrarPacientesV84('Aguardando Anamnese',this)">Aguardando Anamnese</button><button class="v84-filter" data-filtro="Individual" onclick="filtrarPacientesV84('Individual',this)">Individual</button><button class="v84-filter" data-filtro="Encerrada" onclick="filtrarPacientesV84('Encerrada',this)">Encerrada</button><button class="v84-filter" onclick="showTabV7('lista-presenca')">Grupo →</button></div>
 <div class="v84-note">As integrantes classificadas como <b>Grupo</b> não são exibidas nesta Central. Elas permanecem preservadas na base e são visualizadas em Grupo.</div><div id="v7-pacientes-lista" style="margin-top:14px">Carregando...</div>
 </div></div></div></div>
@@ -888,6 +900,34 @@ async function carregarPacientesV7(){
  try{const resp=await fetch(SCRIPT_URL+'?acao=listarPacientes',{mode:'cors'}); const data=await resp.json(); pacientesFluxoV8=Array.isArray(data.pacientes)?data.pacientes:[]; renderPacientesV84();
  }catch(e){box.innerHTML='<p style="color:#a33">Não foi possível carregar a base agora. Nenhum dado foi alterado.</p>';}
 }
+function abrirNovaPacienteV88(){
+ const m=document.getElementById('v88-modal-nova'); if(m)m.style.display='flex';
+ setTimeout(()=>{const n=document.getElementById('v88-np-nome');if(n)n.focus();},50);
+}
+function fecharNovaPacienteV88(){const m=document.getElementById('v88-modal-nova');if(m)m.style.display='none';}
+async function salvarNovaPacienteV88(){
+ const nome=(document.getElementById('v88-np-nome')?.value||'').trim();
+ const nasc=(document.getElementById('v88-np-nasc')?.value||'').trim();
+ const tel=(document.getElementById('v88-np-tel')?.value||'').trim();
+ const email=(document.getElementById('v88-np-email')?.value||'').trim();
+ const obs=(document.getElementById('v88-np-obs')?.value||'').trim();
+ if(!nome){alert('Informe o nome completo da paciente.');return;}
+ const duplicada=(pacientesFluxoV8||[]).some(p=>normalizarFrontV84(p.nome||'')===normalizarFrontV84(nome));
+ if(duplicada){alert('Já existe uma paciente com esse nome na Central. Confira antes de cadastrar novamente.');return;}
+ const btn=document.getElementById('v88-np-salvar'); if(btn){btn.disabled=true;btn.textContent='Salvando...';}
+ try{
+   const campos={'Nome':nome}; if(nasc)campos['Data de Nascimento']=nasc;if(tel)campos['Telefone / WhatsApp']=tel;if(email)campos['E-mail']=email;if(obs)campos['Observações']=obs;
+   campos['Cadastrado por']=usuarioLogado?.nome||'Sistema Mentes Transformadas';
+   await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({tipo:'cadastro',campos})});
+   await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({tipo:'atualizar_fluxo',paciente:nome,etapa:'Aguardando contato',responsavel:'Camila Alves Araujo de Freitas',movidoPor:usuarioLogado?.nome||'Sistema',observacao:'Nova demanda cadastrada; aguardando primeiro contato.'})});
+   fecharNovaPacienteV88();
+   ['v88-np-nome','v88-np-nasc','v88-np-tel','v88-np-email','v88-np-obs'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+   await carregarPacientesV84();
+   alert('Paciente cadastrada. Etapa atual: Aguardando contato.');
+ }catch(err){alert('Não foi possível cadastrar a paciente: '+err.message);}
+ finally{if(btn){btn.disabled=false;btn.textContent='Salvar paciente';}}
+}
+
 function filtrarPacientesV84(f,btn){filtroPacientesV84=f;document.querySelectorAll('#v84-filtros .v84-filter').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');renderPacientesV84();}
 function renderPacientesV84(){const box=document.getElementById('v7-pacientes-lista');if(!box)return;const q=((document.getElementById('v84-busca')||{}).value||'').toLowerCase().trim();const arr=pacientesFluxoV8.filter(p=>p.etapa!=='Grupo').filter(p=>(filtroPacientesV84==='Todos'||p.etapa===filtroPacientesV84)).filter(p=>!q||String(p.nome||'').toLowerCase().includes(q));if(!arr.length){box.innerHTML='<p style="color:var(--texto-sec)">Nenhuma paciente nesta visualização.</p>';return;}box.innerHTML='<div style="display:grid;gap:8px">'+arr.map(p=>{const i=pacientesFluxoV8.indexOf(p);return '<div class="v8-paciente" onclick="abrirPacienteV8('+i+')"><div><strong>'+escaparV7(p.nome||'')+'</strong>'+(p.nascimento?'<div style="font-size:12px;color:var(--texto-sec);margin-top:3px">Nascimento: '+escaparV7(p.nascimento)+'</div>':'')+'</div><span class="v8-status">'+escaparV7(p.etapa||'Etapa ainda não registrada')+'</span></div>'}).join('')+'</div>';}
 function abrirPacienteV8(i){pacienteAtualV8=pacientesFluxoV8[i]; if(!pacienteAtualV8)return; document.getElementById('v8-pac-nome').textContent=pacienteAtualV8.nome||''; document.getElementById('v8-pac-etapa').textContent=pacienteAtualV8.etapa||'Etapa ainda não registrada'; document.getElementById('v8-pac-resp').textContent=pacienteAtualV8.responsavel||'Não definida'; document.getElementById('v8-psico-box').style.display=(pacienteAtualV8.etapa==='Aguardando encaminhamento')?'block':'none'; document.getElementById('v8-anamnese-box').style.display=(pacienteAtualV8.etapa==='Aguardando Anamnese')?'block':'none'; document.getElementById('v8-modal-paciente').classList.add('open');}
