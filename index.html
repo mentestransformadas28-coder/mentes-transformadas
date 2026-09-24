@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<!-- V7 reconstrução segura: base original preservada; sem migração automática -->
+<!-- V9.2 Grupo: base V9.1 preservada; nova Central do Grupo sem migração automática -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mentes Transformadas</title>
@@ -96,6 +96,34 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
 /* V8.4 — referência aprovada */
 .v84-filtros{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0 16px}.v84-filter{border:1px solid #d8d2c2;background:#eeeadd;color:#41472f;border-radius:999px;padding:7px 11px;font-size:11px;font-weight:700;cursor:pointer}.v84-filter.active,.v84-filter:hover{background:#343a28;color:#fff}.v84-toolbar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:10px 0 14px}.v84-search{flex:1;min-width:220px;padding:10px 12px;border:1px solid var(--borda);border-radius:9px;background:#fff}.v84-note{background:#f8f5ed;border:1px solid #ddd6c5;border-radius:10px;padding:12px 14px;font-size:12px;color:var(--texto-sec)}.v84-manage-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.v84-manage-card{border:1px solid var(--borda);background:#fff;border-radius:12px;padding:15px;cursor:pointer}.v84-manage-card:hover{box-shadow:0 4px 14px rgba(44,48,32,.09)}.v84-manage-card h3{margin:0 0 5px;color:var(--verde-escuro);font-size:14px}.v84-subpage{display:none;margin-top:14px}.v84-subpage.open{display:block}.v84-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.v84-chip{display:inline-block;padding:4px 8px;border-radius:999px;background:#eeeadd;font-size:11px;font-weight:700}.v84-footer{text-align:center;padding:28px 10px 35px;color:var(--texto-sec);font-size:12px}.v84-footer strong{color:var(--verde-escuro)}@media(max-width:700px){.v84-row{grid-template-columns:1fr}}
 </style>
+
+<style id="v92-grupo-css">
+.v92-grupo-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:18px}
+.v92-grupo-head h2{font-family:'Playfair Display',serif;color:var(--roxo);font-size:22px;margin-bottom:4px}
+.v92-grupo-head p{color:var(--texto-sec);font-size:13px;line-height:1.5}
+.v92-tabs{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0 18px}
+.v92-tab{border:1px solid var(--borda);background:#fff;color:var(--roxo);border-radius:999px;padding:8px 12px;font:600 12px Inter,sans-serif;cursor:pointer}
+.v92-tab.active,.v92-tab:hover{background:var(--roxo);color:#fff}
+.v92-panel{display:none}.v92-panel.active{display:block}
+.v92-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.v92-stat{background:#fff;border:1px solid var(--borda);border-radius:12px;padding:15px}
+.v92-stat strong{display:block;font-size:25px;color:var(--roxo);margin-top:4px}
+.v92-list{display:grid;gap:9px}
+.v92-member{background:#fff;border:1px solid var(--borda);border-radius:11px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;cursor:pointer}
+.v92-member:hover{border-color:var(--roxo-borda);box-shadow:0 3px 12px rgba(44,48,32,.08)}
+.v92-member small{display:block;color:var(--texto-sec);margin-top:3px}
+.v92-empty{background:#fff;border:1px dashed var(--borda);border-radius:10px;padding:18px;color:var(--texto-sec);font-size:13px}
+.v92-detail{display:grid;gap:14px}
+.v92-info{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.v92-info>div,.v92-doc{background:#fff;border:1px solid var(--borda);border-radius:9px;padding:11px}
+.v92-info b{display:block;color:var(--roxo);font-size:11px;text-transform:uppercase;margin-bottom:4px}
+.v92-actions{display:flex;gap:8px;flex-wrap:wrap}
+.v92-danger{background:#fff;color:#9b2f2f;border:1px solid #c99b9b}
+.v92-danger:disabled{opacity:.45;cursor:not-allowed}
+.v92-permission{font-size:12px;color:var(--texto-sec);background:#f7f4eb;border:1px solid var(--borda);border-radius:9px;padding:10px 12px}
+@media(max-width:700px){.v92-summary,.v92-info{grid-template-columns:1fr}.v92-grupo-head{flex-direction:column}}
+</style>
+
 </head>
 <body>
 <div id="login-screen">
@@ -132,7 +160,7 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
   <button class="tab-btn" onclick="showTab('fluxos-central',this)">Fluxos</button>
   <button class="tab-btn" onclick="showTab('triagem',this)">Triagem Social</button>
   <button class="tab-btn" onclick="showTab('anamnese',this)">Anamnese</button>
-  <button class="tab-btn" onclick="showTab('lista-presenca',this)">Grupo</button>
+  <button class="tab-btn" onclick="showTab('grupo-central',this)">Grupo</button>
   <button class="tab-btn" onclick="showTab('termo',this)">Termo de Compromisso</button>
   <button class="tab-btn" onclick="showTab('gestao-central',this); carregarGestaoV83()">Gestão</button>
   <button class="tab-btn" onclick="abrirHistorico(this)">Histórico</button>
@@ -144,7 +172,7 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
 
 <div class="page" id="pacientes-central"><div class="content-wrap"><div class="section"><div class="section-header">Central de Pacientes</div><div class="section-body">
 <p style="color:var(--texto-sec);font-size:13px">Pacientes em processo de entrada, encaminhamento, Anamnese, atendimento individual ou encerramento. Integrantes do Grupo ficam somente na área Grupo.</p>
-<div class="v84-toolbar"><input class="v84-search" id="v84-busca" placeholder="Buscar paciente pelo nome..." oninput="renderPacientesV84()"><button class="btn btn-prim" onclick="abrirNovaPacienteV88()">+ Nova paciente</button><button class="btn btn-sec" onclick="showTabV7('lista-presenca')">Ir para Grupo</button></div>
+<div class="v84-toolbar"><input class="v84-search" id="v84-busca" placeholder="Buscar paciente pelo nome..." oninput="renderPacientesV84()"><button class="btn btn-prim" onclick="abrirNovaPacienteV88()">+ Nova paciente</button><button class="btn btn-sec" onclick="showTabV7('grupo-central')">Ir para Grupo</button></div>
 <div id="v88-modal-nova" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9999;align-items:center;justify-content:center;padding:20px">
   <div style="background:#fff;max-width:620px;width:100%;border-radius:12px;box-shadow:0 18px 50px rgba(0,0,0,.25);overflow:hidden">
     <div style="background:var(--roxo);color:#fff;padding:14px 18px;font-weight:700;letter-spacing:.04em">Nova paciente</div>
@@ -157,7 +185,7 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
     </div>
   </div>
 </div>
-<div class="v84-filtros" id="v84-filtros"><button class="v84-filter active" data-filtro="Todos" onclick="filtrarPacientesV84('Todos',this)">Todos</button><button class="v84-filter" data-filtro="Aguardando contato" onclick="filtrarPacientesV84('Aguardando contato',this)">Aguardando contato</button><button class="v84-filter" data-filtro="Triagem Social" onclick="filtrarPacientesV84('Triagem Social',this)">Triagem Social</button><button class="v84-filter" data-filtro="Aguardando encaminhamento" onclick="filtrarPacientesV84('Aguardando encaminhamento',this)">Aguardando encaminhamento</button><button class="v84-filter" data-filtro="Aguardando Anamnese" onclick="filtrarPacientesV84('Aguardando Anamnese',this)">Aguardando Anamnese</button><button class="v84-filter" data-filtro="Individual" onclick="filtrarPacientesV84('Individual',this)">Individual</button><button class="v84-filter" data-filtro="Encerrada" onclick="filtrarPacientesV84('Encerrada',this)">Encerrada</button><button class="v84-filter" onclick="showTabV7('lista-presenca')">Grupo →</button></div>
+<div class="v84-filtros" id="v84-filtros"><button class="v84-filter active" data-filtro="Todos" onclick="filtrarPacientesV84('Todos',this)">Todos</button><button class="v84-filter" data-filtro="Aguardando contato" onclick="filtrarPacientesV84('Aguardando contato',this)">Aguardando contato</button><button class="v84-filter" data-filtro="Triagem Social" onclick="filtrarPacientesV84('Triagem Social',this)">Triagem Social</button><button class="v84-filter" data-filtro="Aguardando encaminhamento" onclick="filtrarPacientesV84('Aguardando encaminhamento',this)">Aguardando encaminhamento</button><button class="v84-filter" data-filtro="Aguardando Anamnese" onclick="filtrarPacientesV84('Aguardando Anamnese',this)">Aguardando Anamnese</button><button class="v84-filter" data-filtro="Individual" onclick="filtrarPacientesV84('Individual',this)">Individual</button><button class="v84-filter" data-filtro="Encerrada" onclick="filtrarPacientesV84('Encerrada',this)">Encerrada</button><button class="v84-filter" onclick="showTabV7('grupo-central')">Grupo →</button></div>
 <div class="v84-note">As integrantes classificadas como <b>Grupo</b> não são exibidas nesta Central. Elas permanecem preservadas na base e são visualizadas em Grupo.</div><div id="v7-pacientes-lista" style="margin-top:14px">Carregando...</div>
 </div></div></div></div>
 <div class="page" id="fluxos-central"><div class="content-wrap"><div class="section"><div class="section-header">Fluxo das Pacientes</div><div class="section-body"><p style="color:var(--texto-sec);font-size:13px">Fluxo operacional atual por funções, sem nomes pessoais.</p><div class="v71-etapas"><div class="v71-etapa"><strong>1. Entrada da demanda</strong><br>Demanda recebida e direcionada à Secretaria.</div><div class="v71-arrow">▼</div><div class="v71-etapa"><strong>2. Primeiro contato — Secretaria</strong><br>Explicação do serviço e confirmação de interesse em prosseguir.</div><div class="v71-arrow">▼</div><div class="v71-etapa"><strong>3. Triagem Social — Assistente Social</strong><br>Triagem online e/ou presencial. Registra se a paciente pode e deseja continuar.</div><div class="v71-arrow">▼</div><div class="v71-etapa"><strong>4. Aguardando encaminhamento — Secretaria</strong><br>Paciente que concluiu a Triagem Social aguarda indicação de psicóloga.</div><div class="v71-arrow">▼</div><div class="v71-etapa"><strong>5. Aguardando Anamnese — Psicóloga</strong><br>A psicóloga responsável realiza a Anamnese.</div><div class="v71-arrow">▼</div><div class="v71-etapa"><strong>6. Definição após Anamnese</strong><br>Grupo Psicoterapêutico ou Atendimento Individual.</div><div class="v71-arrow">▼</div><div class="v71-etapa"><strong>7. Em atendimento</strong><br>Acompanhamento na modalidade definida.</div><div class="v71-arrow">▼</div><div class="v71-etapa"><strong>8. Encerramento / Histórico</strong><br>Alta, conclusão, desistência ou outro encerramento, sem excluir o registro.</div></div><div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px"><button class="btn btn-sec" onclick="showTabV7('fluxo-acolhimento')">Consultar fluxo antigo de acolhimento</button><button class="btn btn-sec" onclick="showTabV7('fluxo-grupo')">Consultar fluxo do grupo</button></div></div></div></div></div>
@@ -662,6 +690,96 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
 </div>
 
 
+
+<!-- V9.2 — CENTRAL DO GRUPO -->
+<div class="page" id="grupo-central">
+  <div class="content-wrap">
+    <div class="v92-grupo-head">
+      <div>
+        <h2>Grupo Psicoterapêutico</h2>
+        <p>Gestão das integrantes, presença, histórico e documentos do grupo.</p>
+      </div>
+      <button class="btn btn-sec" onclick="showTabV7('lista-presenca')">Registrar sessão do grupo</button>
+    </div>
+
+    <div class="v92-summary">
+      <div class="v92-stat"><span class="g83-small">Integrantes ativas</span><strong id="v92-total-ativas">—</strong></div>
+      <div class="v92-stat"><span class="g83-small">Integrantes desligadas</span><strong id="v92-total-desligadas">—</strong></div>
+      <div class="v92-stat"><span class="g83-small">Profissionais do grupo</span><strong id="v92-total-profissionais">—</strong></div>
+    </div>
+
+    <div class="v92-tabs">
+      <button class="v92-tab active" onclick="abrirGrupoV92('ativas',this)">Integrantes Ativas</button>
+      <button class="v92-tab" onclick="abrirGrupoV92('presenca',this)">Presença</button>
+      <button class="v92-tab" onclick="abrirGrupoV92('historico',this)">Histórico do Grupo</button>
+      <button class="v92-tab" onclick="abrirGrupoV92('desligadas',this)">Integrantes Desligadas</button>
+      <button class="v92-tab" onclick="abrirGrupoV92('relatorios',this)">Relatórios</button>
+    </div>
+
+    <div id="v92-panel-ativas" class="v92-panel active">
+      <div class="v84-toolbar">
+        <input id="v92-busca-grupo" class="v84-search" placeholder="Buscar integrante..." oninput="renderGrupoV92()">
+      </div>
+      <div id="v92-lista-ativas" class="v92-list"><div class="v92-empty">Carregando integrantes...</div></div>
+    </div>
+
+    <div id="v92-panel-presenca" class="v92-panel">
+      <div class="section"><div class="section-header">Presença</div><div class="section-body">
+        <p style="font-size:13px;color:var(--texto-sec);margin-bottom:14px">O controle de presença já existente foi preservado.</p>
+        <button class="btn btn-prim" onclick="showTabV7('lista-presenca')">Abrir prontuário e presença</button>
+      </div></div>
+    </div>
+
+    <div id="v92-panel-historico" class="v92-panel">
+      <div class="section"><div class="section-header">Histórico do Grupo</div><div class="section-body">
+        <p style="font-size:13px;color:var(--texto-sec);margin-bottom:14px">Os registros históricos existentes permanecem preservados.</p>
+        <button class="btn btn-prim" onclick="showTabV7('historico')">Abrir histórico</button>
+      </div></div>
+    </div>
+
+    <div id="v92-panel-desligadas" class="v92-panel">
+      <div id="v92-lista-desligadas" class="v92-list"><div class="v92-empty">Nenhuma integrante desligada carregada.</div></div>
+    </div>
+
+    <div id="v92-panel-relatorios" class="v92-panel">
+      <div class="section"><div class="section-header">Relatórios</div><div class="section-body">
+        <div class="v84-note">Área preparada para relatórios do grupo. Nenhum dado histórico foi migrado ou excluído.</div>
+      </div></div>
+    </div>
+
+    <div class="section" style="margin-top:18px">
+      <div class="section-header">Equipe do Grupo</div>
+      <div class="section-body"><div id="v92-equipe-grupo" class="g83-grid"></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="v8-modal" id="v92-modal-integrante" onclick="if(event.target===this)fecharIntegranteV92()">
+  <div class="v8-modal-card">
+    <div class="v8-modal-head"><strong id="v92-int-nome">Integrante</strong><button onclick="fecharIntegranteV92()" style="background:none;border:0;color:white;font-size:22px;cursor:pointer">×</button></div>
+    <div class="v8-modal-body">
+      <div class="v92-tabs">
+        <button class="v92-tab active" onclick="abaIntegranteV92('geral',this)">Visão geral</button>
+        <button class="v92-tab" onclick="abaIntegranteV92('historico',this)">Histórico</button>
+        <button class="v92-tab" onclick="abaIntegranteV92('presenca',this)">Presença</button>
+        <button class="v92-tab" onclick="abaIntegranteV92('documentos',this)">Documentos</button>
+        <button class="v92-tab" onclick="abaIntegranteV92('observacoes',this)">Observações</button>
+      </div>
+      <div id="v92-int-geral" class="v92-panel active"><div id="v92-int-info" class="v92-info"></div></div>
+      <div id="v92-int-historico" class="v92-panel"><div class="v92-empty">O histórico individual permanece vinculado aos registros existentes da paciente.</div></div>
+      <div id="v92-int-presenca" class="v92-panel"><div id="v92-int-presenca-conteudo" class="v92-empty">Sem dados locais de presença para esta integrante.</div></div>
+      <div id="v92-int-documentos" class="v92-panel"><div id="v92-int-docs" class="v92-list"></div></div>
+      <div id="v92-int-observacoes" class="v92-panel"><div id="v92-int-obs" class="v92-empty">Sem observações registradas nesta visualização.</div></div>
+      <div class="v92-actions" style="margin-top:18px">
+        <button class="btn btn-sec" onclick="transferirIndividualV92()">Transferir para Atendimento Individual</button>
+        <button id="v92-btn-desligar" class="btn v92-danger" onclick="desligarGrupoV92()">Desligar do Grupo</button>
+      </div>
+      <div id="v92-msg-permissao" class="v92-permission" style="margin-top:10px"></div>
+    </div>
+  </div>
+</div>
+
+
 <!-- LISTA DE PRESENÇA -->
 <div class="page" id="lista-presenca">
   <div class="content-wrap">
@@ -886,12 +1004,14 @@ function showTab(id, btn) {
   if (id === 'dashboard') inicializarDashboard();
   if (id === 'pacientes-central') carregarPacientesV7();
   if (id === 'gestao-central') carregarGestaoV83();
+  if (id === 'grupo-central') carregarGrupoV92();
   window.scrollTo(0,0);
 }
 function showTabV7(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   const el = document.getElementById(id); if (el) el.classList.add('active');
+  if (id === 'grupo-central') carregarGrupoV92();
   window.scrollTo(0,0);
 }
 
@@ -1973,5 +2093,93 @@ function enviarLista(btnEl){
 </div>
 
 <div class="v84-footer"><strong>Mentes Transformadas™ • 2026</strong><br>Desenvolvido por Letícia Fernanda</div>
+
+<script id="v92-grupo-js">
+let integranteAtualV92 = null;
+const PERFIS_GRUPO_V92 = ['leticia','kellen','paula','sandra'];
+const PERFIS_DESLIGAMENTO_V92 = ['leticia','kellen'];
+
+function escV92(v){return String(v==null?'':v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+function podeDesligarGrupoV92(){return !!(usuarioLogado && PERFIS_DESLIGAMENTO_V92.includes(usuarioLogado.usuario));}
+
+async function carregarGrupoV92(){
+  if(!Array.isArray(pacientesFluxoV8) || !pacientesFluxoV8.length){
+    try{
+      const resp=await fetch(SCRIPT_URL+'?acao=listarPacientes',{mode:'cors'});
+      const data=await resp.json();
+      pacientesFluxoV8=Array.isArray(data.pacientes)?data.pacientes:[];
+    }catch(e){}
+  }
+  renderGrupoV92();
+  renderEquipeGrupoV92();
+}
+
+function grupoAtivasV92(){return (pacientesFluxoV8||[]).filter(p=>String(p.etapa||'').toLowerCase()==='grupo');}
+function grupoDesligadasV92(){return (pacientesFluxoV8||[]).filter(p=>/encerrad|desligad/i.test(String(p.etapa||'')) && /grupo/i.test(String(p.observacao||p.observacoes||'')));}
+
+function renderGrupoV92(){
+  const q=((document.getElementById('v92-busca-grupo')||{}).value||'').trim().toLowerCase();
+  const ativas=grupoAtivasV92().filter(p=>!q||String(p.nome||'').toLowerCase().includes(q));
+  const desligadas=grupoDesligadasV92();
+  const a=document.getElementById('v92-total-ativas'), d=document.getElementById('v92-total-desligadas'), pr=document.getElementById('v92-total-profissionais');
+  if(a)a.textContent=grupoAtivasV92().length;if(d)d.textContent=desligadas.length;if(pr)pr.textContent=PERFIS_GRUPO_V92.length;
+  const box=document.getElementById('v92-lista-ativas');
+  if(box) box.innerHTML=ativas.length?ativas.map((p,i)=>`<div class="v92-member" onclick="abrirIntegranteV92(${(pacientesFluxoV8||[]).indexOf(p)})"><div><strong>${escV92(p.nome||'')}</strong><small>Integrante ativa · Grupo Psicoterapêutico</small></div><span class="v8-status">Ver ficha</span></div>`).join(''):'<div class="v92-empty">Nenhuma integrante do Grupo foi retornada pela base neste momento.</div>';
+  const bd=document.getElementById('v92-lista-desligadas');
+  if(bd) bd.innerHTML=desligadas.length?desligadas.map(p=>`<div class="v92-member"><div><strong>${escV92(p.nome||'')}</strong><small>${escV92(p.etapa||'Encerrada')}</small></div></div>`).join(''):'<div class="v92-empty">Nenhuma integrante desligada identificada na base.</div>';
+}
+
+function renderEquipeGrupoV92(){
+  const box=document.getElementById('v92-equipe-grupo');if(!box)return;
+  const arr=USUARIOS.filter(u=>PERFIS_GRUPO_V92.includes(u.usuario));
+  box.innerHTML=arr.map(u=>`<div class="g83-card"><h3>${escV92(u.nome)}</h3><div class="g83-small">${escV92(u.profissao||'Profissional')}</div></div>`).join('');
+}
+
+function abrirGrupoV92(id,btn){
+  document.querySelectorAll('#grupo-central .v92-panel').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('#grupo-central>.content-wrap>.v92-tabs .v92-tab').forEach(x=>x.classList.remove('active'));
+  const p=document.getElementById('v92-panel-'+id);if(p)p.classList.add('active');if(btn)btn.classList.add('active');
+}
+
+function abrirIntegranteV92(idx){
+  integranteAtualV92=(pacientesFluxoV8||[])[idx];if(!integranteAtualV92)return;
+  document.getElementById('v92-int-nome').textContent=integranteAtualV92.nome||'Integrante';
+  const info=document.getElementById('v92-int-info');
+  info.innerHTML=[
+    ['Etapa','Grupo Psicoterapêutico'],
+    ['Nascimento',integranteAtualV92.nascimento||'—'],
+    ['Telefone / WhatsApp',integranteAtualV92.telefone||integranteAtualV92.whatsapp||'—'],
+    ['E-mail',integranteAtualV92.email||'—']
+  ].map(x=>`<div><b>${escV92(x[0])}</b>${escV92(x[1])}</div>`).join('');
+  const docs=document.getElementById('v92-int-docs'); docs.innerHTML='';
+  const candidatos=[['Triagem Social',integranteAtualV92.triagemUrl||integranteAtualV92.urlTriagem],['Anamnese',integranteAtualV92.anamneseUrl||integranteAtualV92.urlAnamnese],['Termo de Compromisso',integranteAtualV92.termoUrl||integranteAtualV92.urlTermo]];
+  candidatos.forEach(([n,u])=>{if(u)docs.innerHTML+=`<a class="v92-doc" href="${escV92(u)}" target="_blank" rel="noopener">${escV92(n)}</a>`;});
+  if(!docs.innerHTML)docs.innerHTML='<div class="v92-empty">Nenhum link de documento foi retornado pela base para esta integrante.</div>';
+  const cp=(typeof controlePresenca!=='undefined'?controlePresenca:[]).find(x=>String(x.nome||'').toLowerCase()===String(integranteAtualV92.nome||'').toLowerCase());
+  document.getElementById('v92-int-presenca-conteudo').innerHTML=cp?`Presenças: <b>${cp.presencas||0}</b> · Faltas: <b>${cp.faltas||0}</b>`:'Sem dados locais de presença para esta integrante.';
+  const b=document.getElementById('v92-btn-desligar'),msg=document.getElementById('v92-msg-permissao');
+  const ok=podeDesligarGrupoV92();b.disabled=!ok;
+  msg.textContent=ok?'Seu perfil possui permissão para desligar integrantes do grupo.':'Seu perfil pode acompanhar o grupo, mas não possui permissão para desligar integrantes.';
+  document.getElementById('v92-modal-integrante').classList.add('open');
+}
+
+function fecharIntegranteV92(){document.getElementById('v92-modal-integrante').classList.remove('open');integranteAtualV92=null;}
+function abaIntegranteV92(id,btn){
+  document.querySelectorAll('#v92-modal-integrante .v92-panel').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('#v92-modal-integrante .v92-tabs .v92-tab').forEach(x=>x.classList.remove('active'));
+  const p=document.getElementById('v92-int-'+id);if(p)p.classList.add('active');if(btn)btn.classList.add('active');
+}
+function transferirIndividualV92(){
+  if(!integranteAtualV92)return;
+  pacienteAtualV8=integranteAtualV92;
+  if(confirm('Transferir esta integrante para Atendimento Individual?')) atualizarFluxoV8('Individual',integranteAtualV92.responsavel||'','Transferida do Grupo para Atendimento Individual.');
+}
+function desligarGrupoV92(){
+  if(!integranteAtualV92||!podeDesligarGrupoV92())return;
+  pacienteAtualV8=integranteAtualV92;
+  if(confirm('Desligar esta integrante do Grupo? O registro será preservado no histórico.')) atualizarFluxoV8('Encerrada',integranteAtualV92.responsavel||'','Desligada do Grupo Psicoterapêutico; registro preservado no histórico.');
+}
+</script>
+
 </body>
 </html>
