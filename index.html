@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<!-- V9.2 Grupo: base V9.1 preservada; nova Central do Grupo sem migração automática -->
+<!-- V9.3 Grupo: desligamento justificado, desligadas, relatórios e acesso restrito ao histórico -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mentes Transformadas</title>
@@ -122,6 +122,33 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
 .v92-danger:disabled{opacity:.45;cursor:not-allowed}
 .v92-permission{font-size:12px;color:var(--texto-sec);background:#f7f4eb;border:1px solid var(--borda);border-radius:9px;padding:10px 12px}
 @media(max-width:700px){.v92-summary,.v92-info{grid-template-columns:1fr}.v92-grupo-head{flex-direction:column}}
+</style>
+
+
+<style id="v93-grupo-css">
+.v93-formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.v93-report-controls{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;margin-bottom:16px}
+.v93-report{background:#fff;border:1px solid var(--borda);border-radius:12px;padding:22px}
+.v93-report h3{font-family:'Playfair Display',serif;color:var(--roxo);margin-bottom:4px}
+.v93-report-meta{font-size:12px;color:var(--texto-sec);margin-bottom:18px}
+.v93-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:14px 0}
+.v93-metric{border:1px solid var(--borda);border-radius:9px;padding:12px;text-align:center}
+.v93-metric strong{display:block;font-size:22px;color:var(--roxo)}
+.v93-report table{width:100%;border-collapse:collapse;margin-top:12px;font-size:12px}
+.v93-report th,.v93-report td{border-bottom:1px solid var(--borda);padding:8px;text-align:left;vertical-align:top}
+.v93-interno{display:none}
+.v93-modal textarea{min-height:110px}
+@media(max-width:700px){.v93-formgrid,.v93-report-controls,.v93-metrics{grid-template-columns:1fr}}
+@media print{
+  body.v93-print-relatorio .app-header,body.v93-print-relatorio .nav-tabs,body.v93-print-relatorio .aviso-bar,
+  body.v93-print-relatorio #grupo-central>*:not(.content-wrap){display:none!important}
+  body.v93-print-relatorio #grupo-central .v92-grupo-head,
+  body.v93-print-relatorio #grupo-central .v92-summary,
+  body.v93-print-relatorio #grupo-central .v92-tabs,
+  body.v93-print-relatorio #grupo-central .section:not(#v93-relatorio-impressao){display:none!important}
+  body.v93-print-relatorio #v92-panel-relatorios{display:block!important}
+  body.v93-print-relatorio #v93-report-controls{display:none!important}
+}
 </style>
 
 </head>
@@ -733,7 +760,7 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
     <div id="v92-panel-historico" class="v92-panel">
       <div class="section"><div class="section-header">Histórico do Grupo</div><div class="section-body">
         <p style="font-size:13px;color:var(--texto-sec);margin-bottom:14px">Os registros históricos existentes permanecem preservados.</p>
-        <button class="btn btn-prim" onclick="showTabV7('historico')">Abrir histórico</button>
+        <button class="btn btn-prim" onclick="abrirHistoricoGrupoV93(this)">Abrir histórico</button>
       </div></div>
     </div>
 
@@ -742,9 +769,27 @@ hr.div{border:none;border-top:1px solid var(--borda);margin:14px 0;}
     </div>
 
     <div id="v92-panel-relatorios" class="v92-panel">
-      <div class="section"><div class="section-header">Relatórios</div><div class="section-body">
-        <div class="v84-note">Área preparada para relatórios do grupo. Nenhum dado histórico foi migrado ou excluído.</div>
-      </div></div>
+      <div class="section" id="v93-relatorio-impressao">
+        <div class="section-header">Relatórios do Grupo</div>
+        <div class="section-body">
+          <div id="v93-report-controls" class="v93-report-controls">
+            <div class="field"><label>Período</label><input type="month" id="v93-rel-mes"></div>
+            <div class="field"><label>Tipo de relatório</label>
+              <select id="v93-rel-tipo">
+                <option value="gerencial">Gerencial — liderança</option>
+                <option value="interno">Interno — equipe autorizada</option>
+              </select>
+            </div>
+            <button class="btn btn-prim" onclick="gerarRelatorioGrupoV93()">Gerar relatório</button>
+          </div>
+          <div id="v93-relatorio-conteudo" class="v93-report">
+            <div class="v84-note">Selecione o período e gere o relatório. O relatório gerencial não exibe conteúdo clínico individual.</div>
+          </div>
+          <div class="acoes">
+            <button class="btn btn-sec" onclick="imprimirRelatorioGrupoV93()">Imprimir / Salvar PDF</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="section" style="margin-top:18px">
@@ -2094,13 +2139,48 @@ function enviarLista(btnEl){
 
 <div class="v84-footer"><strong>Mentes Transformadas™ • 2026</strong><br>Desenvolvido por Letícia Fernanda</div>
 
+
+<div class="v8-modal v93-modal" id="v93-modal-desligamento" onclick="if(event.target===this)fecharDesligamentoV93()">
+  <div class="v8-modal-card">
+    <div class="v8-modal-head"><strong>Desligar integrante do grupo</strong><button onclick="fecharDesligamentoV93()" style="background:none;border:0;color:white;font-size:22px;cursor:pointer">×</button></div>
+    <div class="v8-modal-body">
+      <p style="font-size:13px;color:var(--texto-sec);margin-bottom:14px">O registro será preservado. Informe obrigatoriamente a justificativa do desligamento.</p>
+      <div class="field"><label>Integrante</label><input id="v93-deslig-nome" disabled></div>
+      <div class="field" style="margin-top:12px"><label>Motivo do desligamento *</label>
+        <select id="v93-deslig-motivo" onchange="alternarOutroMotivoV93()">
+          <option value="">Selecionar...</option>
+          <option>Solicitação da própria integrante</option>
+          <option>Ausências recorrentes</option>
+          <option>Encaminhamento para atendimento individual</option>
+          <option>Conclusão da participação no grupo</option>
+          <option>Outro</option>
+        </select>
+      </div>
+      <div class="field" id="v93-outro-box" style="display:none;margin-top:12px"><label>Outro motivo *</label><input id="v93-deslig-outro"></div>
+      <div class="field" style="margin-top:12px"><label>Justificativa / observação *</label><textarea id="v93-deslig-just" placeholder="Registre de forma objetiva o motivo do desligamento."></textarea></div>
+      <div class="acoes">
+        <button class="btn btn-sec" onclick="fecharDesligamentoV93()">Cancelar</button>
+        <button class="btn v92-danger" onclick="confirmarDesligamentoV93()">Confirmar desligamento</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script id="v92-grupo-js">
 let integranteAtualV92 = null;
 const PERFIS_GRUPO_V92 = ['leticia','kellen','paula','sandra'];
 const PERFIS_DESLIGAMENTO_V92 = ['leticia','kellen'];
+const PERFIS_HISTORICO_GRUPO_V93 = ['leticia','kellen','paula','sandra','eliane'];
 
 function escV92(v){return String(v==null?'':v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
 function podeDesligarGrupoV92(){return !!(usuarioLogado && PERFIS_DESLIGAMENTO_V92.includes(usuarioLogado.usuario));}
+function podeHistoricoGrupoV93(){return !!(usuarioLogado && PERFIS_HISTORICO_GRUPO_V93.includes(usuarioLogado.usuario));}
+function isoHojeV93(){return new Date().toISOString().slice(0,10);}
+function brDataV93(s){if(!s)return '—';const p=String(s).slice(0,10).split('-');return p.length===3?`${p[2]}/${p[1]}/${p[0]}`:s;}
+function obsV93(p){return String(p.observacao||p.observacoes||'');}
+function extrairCampoV93(txt,campo){
+  const m=String(txt||'').match(new RegExp(campo+'\\\\s*:\\\\s*([^|]+)','i'));return m?m[1].trim():'';
+}
 
 async function carregarGrupoV92(){
   if(!Array.isArray(pacientesFluxoV8) || !pacientesFluxoV8.length){
@@ -2110,12 +2190,17 @@ async function carregarGrupoV92(){
       pacientesFluxoV8=Array.isArray(data.pacientes)?data.pacientes:[];
     }catch(e){}
   }
-  renderGrupoV92();
-  renderEquipeGrupoV92();
+  const mes=document.getElementById('v93-rel-mes'); if(mes&&!mes.value)mes.value=new Date().toISOString().slice(0,7);
+  renderGrupoV92(); renderEquipeGrupoV92();
 }
 
 function grupoAtivasV92(){return (pacientesFluxoV8||[]).filter(p=>String(p.etapa||'').toLowerCase()==='grupo');}
-function grupoDesligadasV92(){return (pacientesFluxoV8||[]).filter(p=>/encerrad|desligad/i.test(String(p.etapa||'')) && /grupo/i.test(String(p.observacao||p.observacoes||'')));}
+function grupoDesligadasV92(){
+  return (pacientesFluxoV8||[]).filter(p=>{
+    const etapa=String(p.etapa||'').toLowerCase(), ob=obsV93(p).toLowerCase();
+    return (/encerrad|desligad/.test(etapa) && (ob.includes('desligamento do grupo')||ob.includes('desligada do grupo')));
+  });
+}
 
 function renderGrupoV92(){
   const q=((document.getElementById('v92-busca-grupo')||{}).value||'').trim().toLowerCase();
@@ -2124,9 +2209,12 @@ function renderGrupoV92(){
   const a=document.getElementById('v92-total-ativas'), d=document.getElementById('v92-total-desligadas'), pr=document.getElementById('v92-total-profissionais');
   if(a)a.textContent=grupoAtivasV92().length;if(d)d.textContent=desligadas.length;if(pr)pr.textContent=PERFIS_GRUPO_V92.length;
   const box=document.getElementById('v92-lista-ativas');
-  if(box) box.innerHTML=ativas.length?ativas.map((p,i)=>`<div class="v92-member" onclick="abrirIntegranteV92(${(pacientesFluxoV8||[]).indexOf(p)})"><div><strong>${escV92(p.nome||'')}</strong><small>Integrante ativa · Grupo Psicoterapêutico</small></div><span class="v8-status">Ver ficha</span></div>`).join(''):'<div class="v92-empty">Nenhuma integrante do Grupo foi retornada pela base neste momento.</div>';
+  if(box) box.innerHTML=ativas.length?ativas.map(p=>`<div class="v92-member" onclick="abrirIntegranteV92(${(pacientesFluxoV8||[]).indexOf(p)})"><div><strong>${escV92(p.nome||'')}</strong><small>Integrante ativa · Grupo Psicoterapêutico</small></div><span class="v8-status">Ver ficha</span></div>`).join(''):'<div class="v92-empty">Nenhuma integrante do Grupo foi retornada pela base neste momento.</div>';
   const bd=document.getElementById('v92-lista-desligadas');
-  if(bd) bd.innerHTML=desligadas.length?desligadas.map(p=>`<div class="v92-member"><div><strong>${escV92(p.nome||'')}</strong><small>${escV92(p.etapa||'Encerrada')}</small></div></div>`).join(''):'<div class="v92-empty">Nenhuma integrante desligada identificada na base.</div>';
+  if(bd) bd.innerHTML=desligadas.length?desligadas.map(p=>{
+    const ob=obsV93(p), data=extrairCampoV93(ob,'Data'), motivo=extrairCampoV93(ob,'Motivo'), por=extrairCampoV93(ob,'Por');
+    return `<div class="v92-member"><div><strong>${escV92(p.nome||'')}</strong><small>Desligada${data?' em '+escV92(brDataV93(data)):''}${motivo?' · '+escV92(motivo):''}${por?' · por '+escV92(por):''}</small></div><span class="v8-status">Histórico preservado</span></div>`;
+  }).join(''):'<div class="v92-empty">Nenhuma integrante desligada identificada na base.</div>';
 }
 
 function renderEquipeGrupoV92(){
@@ -2139,18 +2227,15 @@ function abrirGrupoV92(id,btn){
   document.querySelectorAll('#grupo-central .v92-panel').forEach(x=>x.classList.remove('active'));
   document.querySelectorAll('#grupo-central>.content-wrap>.v92-tabs .v92-tab').forEach(x=>x.classList.remove('active'));
   const p=document.getElementById('v92-panel-'+id);if(p)p.classList.add('active');if(btn)btn.classList.add('active');
+  if(id==='relatorios')gerarRelatorioGrupoV93();
 }
 
 function abrirIntegranteV92(idx){
   integranteAtualV92=(pacientesFluxoV8||[])[idx];if(!integranteAtualV92)return;
   document.getElementById('v92-int-nome').textContent=integranteAtualV92.nome||'Integrante';
   const info=document.getElementById('v92-int-info');
-  info.innerHTML=[
-    ['Etapa','Grupo Psicoterapêutico'],
-    ['Nascimento',integranteAtualV92.nascimento||'—'],
-    ['Telefone / WhatsApp',integranteAtualV92.telefone||integranteAtualV92.whatsapp||'—'],
-    ['E-mail',integranteAtualV92.email||'—']
-  ].map(x=>`<div><b>${escV92(x[0])}</b>${escV92(x[1])}</div>`).join('');
+  info.innerHTML=[['Etapa','Grupo Psicoterapêutico'],['Nascimento',integranteAtualV92.nascimento||'—'],['Telefone / WhatsApp',integranteAtualV92.telefone||integranteAtualV92.whatsapp||'—'],['E-mail',integranteAtualV92.email||'—']]
+    .map(x=>`<div><b>${escV92(x[0])}</b>${escV92(x[1])}</div>`).join('');
   const docs=document.getElementById('v92-int-docs'); docs.innerHTML='';
   const candidatos=[['Triagem Social',integranteAtualV92.triagemUrl||integranteAtualV92.urlTriagem],['Anamnese',integranteAtualV92.anamneseUrl||integranteAtualV92.urlAnamnese],['Termo de Compromisso',integranteAtualV92.termoUrl||integranteAtualV92.urlTermo]];
   candidatos.forEach(([n,u])=>{if(u)docs.innerHTML+=`<a class="v92-doc" href="${escV92(u)}" target="_blank" rel="noopener">${escV92(n)}</a>`;});
@@ -2174,11 +2259,76 @@ function transferirIndividualV92(){
   pacienteAtualV8=integranteAtualV92;
   if(confirm('Transferir esta integrante para Atendimento Individual?')) atualizarFluxoV8('Individual',integranteAtualV92.responsavel||'','Transferida do Grupo para Atendimento Individual.');
 }
+
 function desligarGrupoV92(){
   if(!integranteAtualV92||!podeDesligarGrupoV92())return;
-  pacienteAtualV8=integranteAtualV92;
-  if(confirm('Desligar esta integrante do Grupo? O registro será preservado no histórico.')) atualizarFluxoV8('Encerrada',integranteAtualV92.responsavel||'','Desligada do Grupo Psicoterapêutico; registro preservado no histórico.');
+  document.getElementById('v93-deslig-nome').value=integranteAtualV92.nome||'';
+  document.getElementById('v93-deslig-motivo').value='';
+  document.getElementById('v93-deslig-outro').value='';
+  document.getElementById('v93-deslig-just').value='';
+  document.getElementById('v93-outro-box').style.display='none';
+  document.getElementById('v93-modal-desligamento').classList.add('open');
 }
+function fecharDesligamentoV93(){document.getElementById('v93-modal-desligamento').classList.remove('open');}
+function alternarOutroMotivoV93(){document.getElementById('v93-outro-box').style.display=document.getElementById('v93-deslig-motivo').value==='Outro'?'block':'none';}
+async function confirmarDesligamentoV93(){
+  if(!integranteAtualV92||!podeDesligarGrupoV92())return;
+  let motivo=document.getElementById('v93-deslig-motivo').value;
+  if(motivo==='Outro')motivo=document.getElementById('v93-deslig-outro').value.trim();
+  const just=document.getElementById('v93-deslig-just').value.trim();
+  if(!motivo){alert('Informe o motivo do desligamento.');return;}
+  if(!just){alert('Preencha a justificativa do desligamento.');return;}
+  const por=usuarioLogado?usuarioLogado.nome:'';
+  const obs=`DESLIGAMENTO DO GRUPO | Data: ${isoHojeV93()} | Motivo: ${motivo} | Por: ${por} | Justificativa: ${just}`;
+  pacienteAtualV8=integranteAtualV92;
+  fecharDesligamentoV93(); fecharIntegranteV92();
+  await atualizarFluxoV8('Encerrada','',obs);
+  setTimeout(async()=>{await carregarGrupoV92();},1300);
+}
+
+function abrirHistoricoGrupoV93(btn){
+  if(!podeHistoricoGrupoV93()){alert('O Histórico do Grupo é restrito às profissionais autorizadas e à liderança pastoral definida.');return;}
+  abrirHistorico(btn);
+}
+
+function gerarRelatorioGrupoV93(){
+  const box=document.getElementById('v93-relatorio-conteudo');if(!box)return;
+  const mes=(document.getElementById('v93-rel-mes')||{}).value||new Date().toISOString().slice(0,7);
+  const tipo=(document.getElementById('v93-rel-tipo')||{}).value||'gerencial';
+  if(tipo==='interno'&&!podeHistoricoGrupoV93()){box.innerHTML='<div class="v84-note">Seu perfil não possui acesso ao relatório interno.</div>';return;}
+  const ativas=grupoAtivasV92(), desligadas=grupoDesligadasV92();
+  const desligMes=desligadas.filter(p=>extrairCampoV93(obsV93(p),'Data').slice(0,7)===mes);
+  const [ano,m]=mes.split('-'); const periodo=`${m}/${ano}`;
+  let html=`<h3>Relatório do Grupo Psicoterapêutico</h3><div class="v93-report-meta">Período: ${escV92(periodo)} · Tipo: ${tipo==='gerencial'?'Gerencial — liderança':'Interno — equipe autorizada'} · Emitido em ${brDataV93(isoHojeV93())}</div>
+    <div class="v93-metrics">
+      <div class="v93-metric"><strong>${ativas.length}</strong>Integrantes ativas</div>
+      <div class="v93-metric"><strong>${desligMes.length}</strong>Desligamentos no período</div>
+      <div class="v93-metric"><strong>${PERFIS_GRUPO_V92.length}</strong>Profissionais do grupo</div>
+      <div class="v93-metric"><strong>${desligadas.length}</strong>Desligamentos registrados</div>
+    </div>`;
+  if(desligMes.length){
+    html+=`<h4 style="margin-top:18px;color:var(--roxo)">Movimentações do período</h4><table><thead><tr>${tipo==='interno'?'<th>Integrante</th>':''}<th>Data</th><th>Motivo</th>${tipo==='interno'?'<th>Responsável</th><th>Justificativa</th>':''}</tr></thead><tbody>`;
+    desligMes.forEach(p=>{const ob=obsV93(p);html+=`<tr>${tipo==='interno'?`<td>${escV92(p.nome||'')}</td>`:''}<td>${escV92(brDataV93(extrairCampoV93(ob,'Data')))}</td><td>${escV92(extrairCampoV93(ob,'Motivo')||'—')}</td>${tipo==='interno'?`<td>${escV92(extrairCampoV93(ob,'Por')||'—')}</td><td>${escV92(extrairCampoV93(ob,'Justificativa')||'—')}</td>`:''}</tr>`;});
+    html+='</tbody></table>';
+  }else html+='<div class="v84-note" style="margin-top:14px">Nenhum desligamento registrado neste período.</div>';
+  if(tipo==='gerencial')html+='<p style="font-size:11px;color:var(--texto-sec);margin-top:18px">Relatório gerencial: apresenta dados consolidados e administrativos, sem conteúdo clínico individual.</p>';
+  box.innerHTML=html;
+}
+function imprimirRelatorioGrupoV93(){document.body.classList.add('v93-print-relatorio');window.print();setTimeout(()=>document.body.classList.remove('v93-print-relatorio'),500);}
+</script>
+
+
+<script id="v93-historico-guard">
+(function(){
+  const originalAbrirHistorico = abrirHistorico;
+  abrirHistorico = function(btn){
+    if(!usuarioLogado || !['leticia','kellen','paula','sandra','eliane'].includes(usuarioLogado.usuario)){
+      alert('O Histórico do Grupo é restrito às pessoas autorizadas.');
+      return;
+    }
+    return originalAbrirHistorico(btn);
+  };
+})();
 </script>
 
 </body>
